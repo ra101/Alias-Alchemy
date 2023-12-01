@@ -7,7 +7,12 @@ async function requestHandler (request: Request): Response {
   if (userAgent && isCliRequest(userAgent)){
       return aliasFileResponse(request);
   }
-  return Response.redirect('https://ra101.dev/alias');
+  const webpage = await fetch('https://ra101.dev/alias')
+  let webpageHTML = await webpage.text();
+  webpageHTML = webpageHTML.replaceAll("\"\/", "\"https://ra101.dev/")  
+  const headers = new Headers(webpage.headers);
+  const init: ResponseInit = {headers};
+  return new Response(webpageHTML, init);
 }
 
 
