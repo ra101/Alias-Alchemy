@@ -1,0 +1,19 @@
+{
+    "tools": [
+        "curl", "wget", "httpie"
+    ],
+    "aliasDetails": {
+        "python": {
+            "shorthand": "py",
+            "helpText": ""
+        },
+        "docker": {
+            "shorthand": "dc",
+            "helpText": ""
+        },
+        "django": {
+            "shorthand": "dj",
+            "helpText": ""
+        }
+    }
+}
