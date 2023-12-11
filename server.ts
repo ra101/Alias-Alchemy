@@ -7,8 +7,8 @@ const aliasCategories = Object.keys(aliasData.aliasDetails)
 const aliasFiles = {}
 for await (const cat of aliasCategories) {
   aliasFiles[cat] = {}
-  aliasFiles[cat]['linux'] = await Deno.readFile(`.${cat}.alias.sh`);
-  aliasFiles[cat]['win'] = await Deno.readFile(`.${cat}.alias.cmd`);
+  aliasFiles[cat]["linux"] = await Deno.readFile(`.${cat}.alias.sh`);
+  aliasFiles[cat]["win"] = await Deno.readFile(`.${cat}.alias.cmd`);
 }
 
 const shortMap = {}
@@ -32,7 +32,7 @@ async function requestHandler (request: Request): Response {
       return await aliasFileResponse(request);
   }
 
-  const webpage = await fetch('https://ra101.dev/alias-alchemy')
+  const webpage = await fetch('https://ra101.dev/Alias-Alchemy')
   let webpageHTML = await webpage.text();
   webpageHTML = webpageHTML.replaceAll("\"\/", "\"https://ra101.dev/")  
   const headers = new Headers(webpage.headers);
