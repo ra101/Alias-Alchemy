@@ -4,16 +4,19 @@
     ],
     "aliasDetails": {
         "python": {
+            "heading": "Python",
             "shorthand": "py",
-            "helpText": ""
+            "link": "https://www.python.org/"
         },
         "docker": {
+            "heading": "Docker",
             "shorthand": "dc",
-            "helpText": ""
+            "link": "https://www.docker.com/"
         },
         "django": {
+            "heading": "Django",
             "shorthand": "dj",
-            "helpText": ""
+            "link": "https://www.djangoproject.com/"
         }
     }
 }
