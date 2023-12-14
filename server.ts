@@ -3,6 +3,7 @@ import aliasData from './data.json' assert { type: "json" };
 
 
 const aliasCategories = Object.keys(aliasData.aliasDetails)
+const networkTools = Object.keys(aliasData.tools)
 
 const aliasFiles = {}
 for await (const cat of aliasCategories) {
@@ -42,7 +43,7 @@ async function requestHandler (request: Request): Response {
 
 
 function isCliRequest(userAgent: string): Boolean{
-  for (const tool of aliasData.tools) {
+  for (const tool of networkTools) {
     if (userAgent.toLowerCase().includes(tool)) {
       return true;
     }

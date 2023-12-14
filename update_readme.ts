@@ -16,7 +16,7 @@ async function createAliasText (aliasCategories) {
 
     const link = aliasCategories[cat]['link']
     aliasText += `<details>\n\t<summary> `
-    aliasText += `<h4 style="display:inline-block;"> <a href="${link}"> ${aliasCategories[cat]['heading']} </a>`
+    aliasText += `<h4 style="display:inline-block;"> <a href="${link}"> ${aliasCategories[cat]['display']} </a>`
     aliasText += ` (${aliasCategories[cat]['shorthand']})`
     aliasText += ' Aliases </h4> </summary>'
     
@@ -52,7 +52,7 @@ async function updateReadme(aliasText){
 }
 
 async function updateIndex(aliasText){
-  const fileName = 'index.md'
+const fileName = 'index.md'
   const indexFile = await Deno.readFile(fileName);
   let indexText = new TextDecoder().decode(indexFile)
 

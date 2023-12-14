@@ -1,20 +1,49 @@
 {
-    "tools": [
-        "curl", "wget", "httpie"
-    ],
+    "tools": {
+        "curl": {
+            "display": "cURL",
+            "command": "curl -LOJ \"alias-alchemy.ra101.dev?q=py,dj,docker&sys=linux\"",
+            "link": "https://curl.se/"
+        },
+        "wget": {
+            "display": "Wget",
+            "command": "wget --content-disposition \"alias-alchemy.ra101.dev?q=py,dj,docker&sys=win\"",
+            "link": "https://www.gnu.org/software/wget/"
+        },
+        "httpie": {
+            "display": "HTTPie",
+            "command": "http -d <url>",
+            "link": "https://httpie.io/"
+        },
+        "aria2": {
+            "display": "aria2",
+            "command": "aria2c -c <url>",
+            "link": "https://www.postman.com/"
+        },
+        "postmanruntime": {
+            "display": "Postman",
+            "command": "GET <url> | Save to File",
+            "link": "https://www.postman.com/"
+        },
+        "alal": {
+            "display": "Any Tool",
+            "command": "<tool> <header: {'User-Agent': 'alal'}> <url>",
+            "link": null
+        }
+    },
     "aliasDetails": {
         "python": {
-            "heading": "Python",
+            "display": "Python",
             "shorthand": "py",
             "link": "https://www.python.org/"
         },
         "docker": {
-            "heading": "Docker",
+            "display": "Docker",
             "shorthand": "dc",
             "link": "https://www.docker.com/"
         },
         "django": {
-            "heading": "Django",
+            "display": "Django",
             "shorthand": "dj",
             "link": "https://www.djangoproject.com/"
         }
