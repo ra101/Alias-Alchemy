@@ -34,48 +34,68 @@ async function createAliasText (aliasCategories) {
 }
 
 
-async function updateReadme(aliasText){
+function populateTag(tag: string, data: string, text: string){
+  const openTag = `<${tag}>`
+  const closeTag = `</${tag}>`
+  const tagStart = text.substring(
+    0, text.indexOf(openTag) + openTag.length
+  );
+  const tagEnd = text.substring(
+    text.indexOf(closeTag), text.length
+  );
+  return `${tagStart}\n${data}\n${tagEnd}`
+}
+
+async function updateReadme(){
+
+  // read readme file
   const fileName = 'README.md'
   const readmeFile = await Deno.readFile(fileName);
   let readmeText = new TextDecoder().decode(readmeFile)
+  readmeText = readmeText.replaceAll('\r', '')
 
-  const readmeCLIStart = readmeText.substring(
-    0, readmeText.indexOf('<aliasText>') + '<aliasText>'.length
-  );
-  
-  const readmeCLIEnd = readmeText.substring(
-    readmeText.indexOf('</aliasText>'), readmeText.length
-  );
-  
-  readmeText = `${readmeCLIStart}\n${aliasText}\n${readmeCLIEnd}`
+  // populate alias details
+  const aliasText = await createAliasText(aliasCategories)
+  readmeText = populateTag(
+    'aliasText', aliasText, readmeText
+  )
+
+  // populate network tools
+
+  // write readme file
   await Deno.writeTextFile(fileName, readmeText);
 }
 
-async function updateIndex(aliasText){
-const fileName = 'index.md'
-  const indexFile = await Deno.readFile(fileName);
-  let indexText = new TextDecoder().decode(indexFile)
+async function updateIndex(){
 
-  const indexCLIStart = indexText.substring(
-    0, indexText.indexOf('<aliasText>') + '<aliasText>'.length
-  );
-  
-  const indexCLIEnd = indexText.substring(
-    indexText.indexOf('</aliasText>'), indexText.length
-  );
+  let readmeText = new TextDecoder().decode(
+    await Deno.readFile('README.md')
+  )
+  readmeText = readmeText.replaceAll('\r', '')
 
-  aliasText = aliasText.replaceAll(
-    '\`\`\`bash\n', '<pre><code class="language-bash">'
+  readmeText = readmeText.substring(
+    readmeText.indexOf('<indexMarkdown>') + '<indexMarkdown>'.length,
+    readmeText.indexOf('</indexMarkdown>')
   )
 
-  aliasText = aliasText.replaceAll('\n\`\`\`', '</code></pre>')
 
+  readmeText = readmeText.replaceAll(
+    '\`\`\`bash\n', '<pre><code class="language-bash">'
+  )
+  readmeText = readmeText.replaceAll('\n\`\`\`', '</code></pre>')
+
+
+  let indexText = new TextDecoder().decode(
+    await Deno.readFile('index.md')
+  )
+
+  indexText = populateTag(
+    'indexMarkdown', readmeText, indexText
+  )
   
-  indexText = `${indexCLIStart}\n${aliasText}\n${indexCLIEnd}`
-  await Deno.writeTextFile(fileName, indexText);
+  await Deno.writeTextFile('index.md', indexText);
 }
 
 const aliasCategories = aliasData.aliasDetails
-const aliasText = await createAliasText(aliasCategories)
-await updateReadme(aliasText)
-await updateIndex(aliasText)
+await updateReadme()
+await updateIndex()
