@@ -3,7 +3,7 @@ import aliasData from './data.json' assert { type: "json" };
 
 
 
-async function createAliasText (aliasCategories) {    
+async function createAliasText(aliasCategories) {    
   let aliasText = ''
 
   for await (const cat of Object.keys(aliasCategories)) {
@@ -31,6 +31,29 @@ async function createAliasText (aliasCategories) {
     aliasText += '\n</details>\n\n'
   }
   return aliasText
+}
+
+async function createToolTable(networkTools) {    
+  let toolTable = '\n<table><tbody>\n'
+
+  for await (const tool of Object.keys(networkTools)) {
+    if (['curl', 'wget'].includes(tool)) {
+      continue
+    }
+    let toolRow = '<tr><td> '
+
+    if (networkTools[tool]['link']){
+      toolRow += `<a href="${networkTools[tool]['link']}"> ${networkTools[tool]['display']} </a>` 
+    } else {
+      toolRow += `${networkTools[tool]['display']}` 
+    }
+
+    toolRow += ` </td> <td> <code> ${networkTools[tool]['command']} </code> </td>`
+    toolRow += '</tr>\n'
+    toolTable += toolRow
+  }
+  toolTable += '</tbody></table>\n'
+  return toolTable
 }
 
 
@@ -61,6 +84,10 @@ async function updateReadme(){
   )
 
   // populate network tools
+  const toolTable = await createToolTable(networkTools)
+  readmeText = populateTag(
+    'tools', toolTable, readmeText
+  )
 
   // write readme file
   await Deno.writeTextFile(fileName, readmeText);
@@ -97,5 +124,6 @@ async function updateIndex(){
 }
 
 const aliasCategories = aliasData.aliasDetails
+const networkTools = aliasData.tools
 await updateReadme()
 await updateIndex()

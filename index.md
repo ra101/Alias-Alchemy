@@ -37,7 +37,10 @@ The best way to download alias for fast setup.
 <tools>
 
 <table><tbody>
-<tr><td>httpie</td><td><code>httpie</code></td></tr>
+<tr><td> <a href="https://httpie.io/"> HTTPie </a> </td> <td> <code> http -d [url] </code> </td></tr>
+<tr><td> <a href="https://www.postman.com/"> aria2 </a> </td> <td> <code> aria2c -c [url] </code> </td></tr>
+<tr><td> <a href="https://www.postman.com/"> Postman </a> </td> <td> <code> GET [url] | Save to File </code> </td></tr>
+<tr><td> Any Tool </td> <td> <code> [tool] [header: {'User-Agent': 'alal'}] [url] </code> </td></tr>
 </tbody></table>
 
 </tools>

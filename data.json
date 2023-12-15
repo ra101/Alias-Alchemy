@@ -12,22 +12,22 @@
         },
         "httpie": {
             "display": "HTTPie",
-            "command": "http -d <url>",
+            "command": "http -d [url]",
             "link": "https://httpie.io/"
         },
         "aria2": {
             "display": "aria2",
-            "command": "aria2c -c <url>",
+            "command": "aria2c -c [url]",
             "link": "https://www.postman.com/"
         },
         "postmanruntime": {
             "display": "Postman",
-            "command": "GET <url> | Save to File",
+            "command": "GET [url] | Save to File",
             "link": "https://www.postman.com/"
         },
         "alal": {
             "display": "Any Tool",
-            "command": "<tool> <header: {'User-Agent': 'alal'}> <url>",
+            "command": "[tool] [header: {'User-Agent': 'alal'}] [url]",
             "link": null
         }
     },
