@@ -4,8 +4,11 @@
 
 The best way to download alias for fast setup.
 
-## Usage
-**Step 1**: Using any of the following supported tools, send a `GET` request to alias alchemy domain with/without `q (default all)` and `sys (default: linux)` query parameters to **download the composite alias file**.
+
+<h2> Usage </h2>
+
+<b>Step 1</b>: Using any of the following tools, send a <code>GET</code> request to alias alchemy domain with/without <code>q (default all)</code> and <code>sys (default: linux)</code> query parameters to <b>download the composite alias file</b>.
+<br>
 <ul>
 <details open>
 	<summary> Using <a href="https://curl.se/"> cURL </a> </summary> <br/>
@@ -14,7 +17,7 @@ The best way to download alias for fast setup.
 curl -LOJ "alias-alchemy.ra101.dev?q=py,dj,docker&sys=linux"
 ```
 
-(Instead of using `-OJ` you can use ` > alias.sh` to direct write output to the file)
+(Instead of using <code>-OJ</code> you can use <code> > alias.sh</code> to directly write output to the file)
 </details>
 </ul>
 
@@ -26,7 +29,7 @@ curl -LOJ "alias-alchemy.ra101.dev?q=py,dj,docker&sys=linux"
 wget --content-disposition "alias-alchemy.ra101.dev?q=py,dj,docker&sys=win"
 ```
 
-(Instead of using `--content-disposition` you can use ` -O - > alias.cmd` to direct write output to the file)
+(Instead of using `--content-disposition` you can use ` -O - > alias.cmd` to directly write output to the file)
 </details>
 </ul>
 
@@ -36,23 +39,23 @@ wget --content-disposition "alias-alchemy.ra101.dev?q=py,dj,docker&sys=win"
 
 <tools>
 
-|||
-|-|-|
-| httpie | `httpie` |
+<table><tbody>
+<tr><td>httpie</td><td><code>httpie</code></td></tr>
+</tbody></table>
 
 </tools>
 
 </details>
 </ul>
 
-**Mirrors**:
-- [alias-alchemy.ra101.dev](https://alias-alchemy.ra101.dev?q=)
-- [alal.deno.dev](https://alal.deno.dev?q=)
+<b>Mirrors</b>:
+<ul> <li> <a href="https://alias-alchemy.ra101.dev?q="> alias-alchemy.ra101.dev </a> </li>
+<li> <a href="https://alal.deno.dev?q="> alal.deno.dev </a> </li> </ul>
 
 <br/>
 
-**Step 2**: Using any of the following tools, send a `GET` request to alias alchemy domain with/without `q (default all)` and `sys (default: linux)` query parameters to download the composite alias file.
-
+<b>Step 2</b>: Using any of the following tools, send a <code>GET</code> request to alias alchemy domain with/without <code>q (default all)</code> and <code>sys (default: linux)</code> query parameters to download the composite alias file.
+<br>
 <ul>
 <details open>
 	<summary> Linux Setup </summary> <br/>
@@ -61,7 +64,7 @@ wget --content-disposition "alias-alchemy.ra101.dev?q=py,dj,docker&sys=win"
 curl -LOJ "alias-alchemy.ra101.dev?q=py,dj,docker&sys=linux"
 ```
 
-(Instead of using `-OJ` you can use ` > alias.sh` to direct write output to the file)
+(Instead of using <code>-OJ</code> you can use <code> > alias.sh</code> to directly write output to the file)
 </details>
 </ul>
 
@@ -73,12 +76,12 @@ curl -LOJ "alias-alchemy.ra101.dev?q=py,dj,docker&sys=linux"
 wget --content-disposition "alias-alchemy.ra101.dev?q=py,dj,docker&sys=win"
 ```
 
-(Instead of using `--content-disposition` you can use ` -O - > alias.cmd` to direct write output to the file)
+(Instead of using <code>--content-disposition</code> you can use <code> -O - > alias.cmd</code> to directly write output to the file)
 </details>
 </ul>
 
 
-## Alias Details
+<h2> Alias Details </h2>
 
 <aliasText>
 <details>
