@@ -10,6 +10,9 @@ The best way to download alias for fast setup.
 
 <b>Step 1</b>: Using any of the following tools, send a <code>GET</code> request to alias alchemy domain with/without <code>q (default all)</code> and <code>sys (default: linux)</code> query parameters to <b>download the composite alias file</b>.
 
+- Linux Path: <code>~/.alias.sh</code>
+- Windows Path: <code>%USERPROFILE%\\.alias.cmd</code>
+
 <br/>
 
 <ul>
@@ -54,24 +57,34 @@ The best way to download alias for fast setup.
 
 <br/>
 
-<b>Step 2</b>: Using any of the following tools, send a <code>GET</code> request to alias alchemy domain with/without <code>q (default all)</code> and <code>sys (default: linux)</code> query parameters to download the composite alias file.
+<b>Step 2</b>: Configure our system to auto-run the alias file whenever a terminal is launched. <b>(This is just a first-time setup)</b>
 
 <br/>
 
 <ul>
-<details open>
+<details open class="linux-details">
 	<summary> Linux Setup </summary> <br/>
 
-<pre><code class="language-bash">curl -L "alias-alchemy.ra101.dev?q=py,dj,docker&sys=linux" > ~/.alias.sh</code></pre>
+ Assuming we saved the file at <code>~/.alias.sh</code>, run the following command
+
+<pre><code class="language-bash"># Append `Executing Command (source)` in the shell's configuration profile.
+## Bash 
+grep -qxF 'source ~/.alias.sh' ~/.bashrc || echo 'source ~/.alias.sh' >> ~/.bashrc
+
+## ZSH 
+grep -qxF 'source ~/.alias.sh' ~/.zshrc || echo 'source ~/.alias.sh' >> ~/.zshrc</code></pre>
 
 </details>
 </ul>
 
 <ul>
-<details>
+<details class="win-details">
 	<summary> Windows Setup </a> </summary> <br/>
 
-<pre><code class="language-bash">wget "alias-alchemy.ra101.dev?q=py,dj,docker&sys=win" -O %USERPROFILE%\.alias.cmd</code></pre>
+ Assuming we saved the file at <code>%USERPROFILE%\\.alias.cmd</code>, run the following command in <b>Administrator Mode</b>
+</code></pre>batch
+:: Adding Auto-Run key (string) in Windows registry and setting the value to the file path. 
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Command Processor" /f /v "AutoRun" /t REG_SZ /d "%USERPROFILE%\.alias.cmd"</code></pre>
 
 </details>
 </ul>
