@@ -109,8 +109,14 @@ async function updateIndex(){
   readmeText = readmeText.replaceAll(
     '\`\`\`bash\n', '<pre><code class="language-bash">'
   )
+  readmeText = readmeText.replaceAll(
+    '\`\`\`batch\n', '<pre><code class="language-batch">'
+  )
   readmeText = readmeText.replaceAll('\n\`\`\`', '</code></pre>')
 
+  readmeText = readmeText.replaceAll(
+    '%USERPROFILE%\\\\.alias.cmd', '%USERPROFILE%\\.alias.cmd'
+  )
 
   let indexText = new TextDecoder().decode(
     await Deno.readFile('index.md')
