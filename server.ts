@@ -93,7 +93,7 @@ async function aliasFileResponse(request: Request){
     headers.set('Content-Type', 'text/plain');
     headers.set(
       'Content-Disposition',
-      `attachment; filename="alias.${filetype}"`
+      `attachment; filename=".alias.${filetype}"`
     )
     const init: ResponseInit = {headers};
 

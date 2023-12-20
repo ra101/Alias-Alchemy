@@ -2,22 +2,22 @@
     "tools": {
         "curl": {
             "display": "cURL",
-            "command": "curl -LOJ \"alias-alchemy.ra101.dev?q=py,dj,docker&sys=linux\"",
+            "command": "curl -L \"alias-alchemy.ra101.dev?q=py,dj,docker&sys=linux\" > ~/.alias.sh",
             "link": "https://curl.se/"
         },
         "wget": {
             "display": "Wget",
-            "command": "wget --content-disposition \"alias-alchemy.ra101.dev?q=py,dj,docker&sys=win\"",
+            "command": "wget \"alias-alchemy.ra101.dev?q=py,dj,docker&sys=win\" > ~/.alias.cmd",
             "link": "https://www.gnu.org/software/wget/"
         },
         "httpie": {
             "display": "HTTPie",
-            "command": "http -d [url]",
+            "command": "http -d [url] > [filepath]",
             "link": "https://httpie.io/"
         },
         "aria2": {
             "display": "aria2",
-            "command": "aria2c -c [url]",
+            "command": "aria2c -c [url] > [filepath]",
             "link": "https://www.postman.com/"
         },
         "postmanruntime": {
@@ -27,7 +27,7 @@
         },
         "alal": {
             "display": "Any Tool",
-            "command": "[tool] [header: {'User-Agent': 'alal'}] [url]",
+            "command": "[tool] [header: {'User-Agent': 'alal'}] [url] > [filepath]",
             "link": null
         }
     },
