@@ -1,4 +1,9 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/a11y-light.min.css"><link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css"/>
+
+<style>
+.hljs-copy-button {transform: None; filter:invert(1)}
+.hljs {color: purple}
+</style>
 
 <indexMarkdown>
 
@@ -16,8 +21,6 @@ The best way to download alias for fast setup.
 	<li> Linux Path: <code>~/.alias.sh</code> </li>
 	<li> Windows Path: <code>%USERPROFILE%\.alias.cmd</code> </li>
 </ul>
-
-<br/>
 
 <ul>
 <details open>
@@ -91,12 +94,28 @@ grep -qxF 'source ~/.alias.sh' ~/.zshrc || echo 'source ~/.alias.sh' >> ~/.zshrc
 
 <br/><br/>
 
-<pre><code class="language-batch">:: Adding Auto-Run key (string) in Windows registry and setting the value to the file path. 
+<pre><code class="language-dos">REM Adding `AutoRun` key (string) in Windows registry and setting the value to the file path. 
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Command Processor" /f /v "AutoRun" /t REG_SZ /d "%USERPROFILE%\.alias.cmd"</code></pre>
 
 </details>
 </ul>
 
+<br/>
+
+<b>Step 3</b>: After creating the alias file and configuring our system, another operation that can be performed is <b>appending the alias file</b> using the <code>>></code> operator. <i> It is perhaps the reason why this project exists. </i>
+
+<br/><br/>
+<ul>
+
+<pre><code class="language-bash"># Using Direct Command
+curl -L "alias-alchemy.ra101.dev?q=kubernetes" >> ~/.alias.sh
+
+# Using Alias
+fetch-alias kubernetes >> ~/.alias.sh</code></pre>
+
+</ul>
+
+<br/>
 
 <h2> Alias Details </h2>
 
@@ -168,12 +187,13 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Command Processor" /f /v "AutoRun
 </indexMarkdown>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-
-<!-- and it's easy to individually load additional languages -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dos.min.js"></script>
+<script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+
 
 <script>
-
+	hljs.addPlugin(new CopyButtonPlugin());
 	hljs.highlightAll();
 
 	window.onload = function() {

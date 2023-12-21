@@ -110,12 +110,16 @@ async function updateIndex(){
     '\`\`\`bash\n', '<pre><code class="language-bash">'
   )
   readmeText = readmeText.replaceAll(
-    '\`\`\`batch\n', '<pre><code class="language-batch">'
+    '\`\`\`batch\n', '<pre><code class="language-dos">'
   )
   readmeText = readmeText.replaceAll('\n\`\`\`', '</code></pre>')
 
   readmeText = readmeText.replaceAll(
     '%USERPROFILE%\\\\.alias.cmd', '%USERPROFILE%\\.alias.cmd'
+  )
+
+  readmeText = readmeText.replaceAll(
+    '<be times="2" />', '<br/><br/>'
   )
 
   let indexText = new TextDecoder().decode(

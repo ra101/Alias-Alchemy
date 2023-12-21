@@ -9,14 +9,12 @@ The best way to download alias for fast setup.
 
 <b>Step 1</b>: Using any of the following tools, send a <code>GET</code> request to alias alchemy domain with/without <code>q (default all)</code> and <code>sys (default: linux)</code> query parameters to <b>download the composite alias file</b>.
 
-<br/><br/>
+<be times="2" />
 
 <ul>
 	<li> Linux Path: <code>~/.alias.sh</code> </li>
 	<li> Windows Path: <code>%USERPROFILE%\\.alias.cmd</code> </li>
 </ul>
-
-<br/>
 
 <ul>
 <details open>
@@ -66,7 +64,7 @@ wget "alias-alchemy.ra101.dev?q=py,dj,docker&sys=win" -O %USERPROFILE%\.alias.cm
 
 <b>Step 2</b>: Configure our system to auto-run the alias file whenever a terminal is launched. <b>(This is just a first-time setup)</b>
 
-<br/><br/>
+<be times="2" />
 
 <ul>
 <details open class="linux-details">
@@ -74,7 +72,7 @@ wget "alias-alchemy.ra101.dev?q=py,dj,docker&sys=win" -O %USERPROFILE%\.alias.cm
 
  Assuming we saved the file at <code>~/.alias.sh</code>, run the following command 
 
-<br/><br/>
+<be times="2" />
 
 ```bash
 # Append `Executing Command (source)` in the shell's configuration profile.
@@ -94,16 +92,34 @@ grep -qxF 'source ~/.alias.sh' ~/.zshrc || echo 'source ~/.alias.sh' >> ~/.zshrc
 
  Assuming we saved the file at <code>%USERPROFILE%\\.alias.cmd</code>, run the following command in <b>Administrator Mode</b>
 
-<br/><br/>
+<be times="2" />
 
 ```batch
-:: Adding Auto-Run key (string) in Windows registry and setting the value to the file path. 
+REM Adding `AutoRun` key (string) in Windows registry and setting the value to the file path. 
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Command Processor" /f /v "AutoRun" /t REG_SZ /d "%USERPROFILE%\.alias.cmd"
 ```
 
 </details>
 </ul>
 
+<br/>
+
+<b>Step 3</b>: After creating the alias file and configuring our system, another operation that can be performed is <b>appending the alias file</b> using the <code>>></code> operator. <i> It is perhaps the reason why this project exists. </i>
+
+<be times="2" />
+<ul>
+
+```bash
+# Using Direct Command
+curl -L "alias-alchemy.ra101.dev?q=kubernetes" >> ~/.alias.sh
+
+# Using Alias
+fetch-alias kubernetes >> ~/.alias.sh
+```
+
+</ul>
+
+<br/>
 
 <h2> Alias Details </h2>
 
