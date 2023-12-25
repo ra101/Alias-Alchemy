@@ -46,7 +46,8 @@ wget "alias-alchemy.ra101.dev?q=py,dj,docker&sys=win" -O %USERPROFILE%\.alias.cm
 
 <table><tbody>
 <tr><td> <a href="https://httpie.io/"> HTTPie </a> </td> <td> <code> http -d [url] > [filepath] </code> </td></tr>
-<tr><td> <a href="https://www.postman.com/"> aria2 </a> </td> <td> <code> aria2c -c [url] > [filepath] </code> </td></tr>
+<tr><td> <a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-webrequest/"> Invoke-WebRequest </a> </td> <td> <code> Invoke-WebRequest [url] -O [filepath] </code> </td></tr>
+<tr><td> <a href="https://aria2.github.io/"> aria2 </a> </td> <td> <code> aria2c -c [url] > [filepath] </code> </td></tr>
 <tr><td> <a href="https://www.postman.com/"> Postman </a> </td> <td> <code> GET [url] | Save to File </code> </td></tr>
 <tr><td> Any Tool </td> <td> <code> [tool] [header: {'User-Agent': 'alal'}] [url] > [filepath] </code> </td></tr>
 </tbody></table>

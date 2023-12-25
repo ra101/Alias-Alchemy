@@ -15,10 +15,15 @@
             "command": "http -d [url] > [filepath]",
             "link": "https://httpie.io/"
         },
+        "windowspowershell": {
+            "display": "Invoke-WebRequest",
+            "command": "Invoke-WebRequest [url] -O [filepath]",
+            "link": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-webrequest/"            
+        },
         "aria2": {
             "display": "aria2",
             "command": "aria2c -c [url] > [filepath]",
-            "link": "https://www.postman.com/"
+            "link": "https://aria2.github.io/"
         },
         "postmanruntime": {
             "display": "Postman",
