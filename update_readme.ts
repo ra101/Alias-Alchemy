@@ -1,8 +1,6 @@
 import aliasData from './data.json' assert { type: "json" };
 
 
-
-
 async function createAliasText(aliasCategories) {    
   let aliasText = ''
 
@@ -57,6 +55,7 @@ async function createToolTable(networkTools) {
 }
 
 
+// Replace old data in `tag` with new `data` in `text` file-data
 function populateTag(tag: string, data: string, text: string){
   const openTag = `<${tag}>`
   const closeTag = `</${tag}>`
@@ -75,7 +74,7 @@ async function updateReadme(){
   const fileName = 'README.md'
   const readmeFile = await Deno.readFile(fileName);
   let readmeText = new TextDecoder().decode(readmeFile)
-  readmeText = readmeText.replaceAll('\r', '')
+  readmeText = readmeText.replaceAll('\r', '')   // remove `\r` (enter) char
 
   // populate alias details
   const aliasText = await createAliasText(aliasCategories)
@@ -95,17 +94,19 @@ async function updateReadme(){
 
 async function updateIndex(){
 
+  // read readme file
   let readmeText = new TextDecoder().decode(
     await Deno.readFile('README.md')
   )
-  readmeText = readmeText.replaceAll('\r', '')
+  readmeText = readmeText.replaceAll('\r', '')   // remove `\r` (enter) char
 
+  // Get `<indexMarkdown> ... </indexMarkdown>`
   readmeText = readmeText.substring(
     readmeText.indexOf('<indexMarkdown>') + '<indexMarkdown>'.length,
     readmeText.indexOf('</indexMarkdown>')
   )
 
-
+  // Replace ```lang``` with Highlight.js syntax
   readmeText = readmeText.replaceAll(
     '\`\`\`bash\n', '<pre><code class="language-bash">'
   )
@@ -114,22 +115,27 @@ async function updateIndex(){
   )
   readmeText = readmeText.replaceAll('\n\`\`\`', '</code></pre>')
 
+  // Replace \\\\ -> \\
   readmeText = readmeText.replaceAll(
     '%USERPROFILE%\\\\.alias.cmd', '%USERPROFILE%\\.alias.cmd'
   )
 
+  // 2 br tags are required in some places to look nice 
   readmeText = readmeText.replaceAll(
     '<be times="2" />', '<br/><br/>'
   )
 
+  // read index file
   let indexText = new TextDecoder().decode(
     await Deno.readFile('index.md')
   )
 
+  // populate index file in indexMarkdown tag
   indexText = populateTag(
     'indexMarkdown', readmeText, indexText
   )
   
+  // write index file
   await Deno.writeTextFile('index.md', indexText);
 }
 
