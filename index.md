@@ -101,7 +101,6 @@ fetch-alias kubernetes >> ~/.alias.sh</code></pre>
 </code></pre>
 
 </details>
-</details>
 
 <details>
 	<summary> <h4 style="display:inline-block;">〉<a href="https://www.python.org/"> Python </a> (py) Aliases </h4> </summary>
@@ -109,7 +108,6 @@ fetch-alias kubernetes >> ~/.alias.sh</code></pre>
 <pre><code class="language-bash"># Python Aliases
 </code></pre>
 
-</details>
 </details>
 
 <details>
@@ -119,7 +117,6 @@ fetch-alias kubernetes >> ~/.alias.sh</code></pre>
 </code></pre>
 
 </details>
-</details>
 
 <details>
 	<summary> <h4 style="display:inline-block;">〉<a href="https://www.docker.com/"> Docker </a> (dc) Aliases </h4> </summary>
@@ -128,7 +125,6 @@ fetch-alias kubernetes >> ~/.alias.sh</code></pre>
 </code></pre>
 
 </details>
-</details>
 
 <details>
 	<summary> <h4 style="display:inline-block;">〉<a href="https://kubernetes.io/"> Kubernetes </a> (k8s) Aliases </h4> </summary>
@@ -136,7 +132,6 @@ fetch-alias kubernetes >> ~/.alias.sh</code></pre>
 <pre><code class="language-bash"># Kubernetes Alias
 </code></pre>
 
-</details>
 </details>
 
 
@@ -160,22 +155,6 @@ fetch-alias kubernetes >> ~/.alias.sh</code></pre>
 <script>
 	hljs.addPlugin(new CopyButtonPlugin());
 	hljs.highlightAll();
-
-	window.onload = function() {
-		const platform = window.navigator.platform.toLowerCase();
-		const winDetails = document.getElementsByClassName('win-details')
-		const linuxDetails = document.getElementsByClassName('linux-details')
-
-		if (platform.includes('win')) {
-			Array.from(winDetails).forEach(function(detailsElement) {
-				detailsElement.open = true;
-			});
-			Array.from(linuxDetails).forEach(function(detailsElement) {
-				detailsElement.open = false;
-			});
-		}
-	};
-
 </script>
 
 

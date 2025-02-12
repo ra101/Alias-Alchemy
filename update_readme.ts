@@ -14,8 +14,7 @@ async function createAliasText(aliasCategories) {
     aliasText += `<h4 style="display:inline-block;">〉<a href="${link}"> ${aliasCategories[cat]['display']} </a>`
     aliasText += ` (${aliasCategories[cat]['shorthand']})`
     aliasText += ' Aliases </h4> </summary>'
-    aliasText += `\n\n\`\`\`bash\n${linuxAliases}\n\`\`\`\n\n</details>`
-    aliasText += '\n</details>\n\n'
+    aliasText += `\n\n\`\`\`bash\n${linuxAliases}\n\`\`\`\n\n</details>\n\n`
   }
   return aliasText
 }

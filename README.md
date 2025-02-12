@@ -105,7 +105,6 @@ fetch-alias kubernetes >> ~/.alias.sh
 ```
 
 </details>
-</details>
 
 <details>
 	<summary> <h4 style="display:inline-block;">〉<a href="https://www.python.org/"> Python </a> (py) Aliases </h4> </summary>
@@ -115,7 +114,6 @@ fetch-alias kubernetes >> ~/.alias.sh
 
 ```
 
-</details>
 </details>
 
 <details>
@@ -127,7 +125,6 @@ fetch-alias kubernetes >> ~/.alias.sh
 ```
 
 </details>
-</details>
 
 <details>
 	<summary> <h4 style="display:inline-block;">〉<a href="https://www.docker.com/"> Docker </a> (dc) Aliases </h4> </summary>
@@ -138,7 +135,6 @@ fetch-alias kubernetes >> ~/.alias.sh
 ```
 
 </details>
-</details>
 
 <details>
 	<summary> <h4 style="display:inline-block;">〉<a href="https://kubernetes.io/"> Kubernetes </a> (k8s) Aliases </h4> </summary>
@@ -148,7 +144,6 @@ fetch-alias kubernetes >> ~/.alias.sh
 
 ```
 
-</details>
 </details>
 
 
