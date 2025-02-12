@@ -1,1 +1,1 @@
-# Kubernetes Alias
+# Kubernetes Aliases

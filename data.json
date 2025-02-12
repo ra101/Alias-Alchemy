@@ -54,7 +54,7 @@
         },
         "kubernetes": {
             "display": "Kubernetes",
-            "shorthand": "k8s",
+            "shorthand": "k",
             "link": "https://kubernetes.io/"
         }
     }

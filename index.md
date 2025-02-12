@@ -97,7 +97,7 @@ fetch-alias kubernetes >> ~/.alias.sh</code></pre>
 <details>
 	<summary> <h4 style="display:inline-block;">〉<a href="null"> Shell </a> (sh) Aliases </h4> </summary>
 
-<pre><code class="language-bash"># Shell Alias
+<pre><code class="language-bash"># Shell Aliases
 </code></pre>
 
 </details>
@@ -127,9 +127,9 @@ fetch-alias kubernetes >> ~/.alias.sh</code></pre>
 </details>
 
 <details>
-	<summary> <h4 style="display:inline-block;">〉<a href="https://kubernetes.io/"> Kubernetes </a> (k8s) Aliases </h4> </summary>
+	<summary> <h4 style="display:inline-block;">〉<a href="https://kubernetes.io/"> Kubernetes </a> (k) Aliases </h4> </summary>
 
-<pre><code class="language-bash"># Kubernetes Alias
+<pre><code class="language-bash"># Kubernetes Aliases
 </code></pre>
 
 </details>
