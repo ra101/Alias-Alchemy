@@ -1,89 +1,76 @@
-import { serve } from 'https://deno.land/std/http/server.ts';
-import aliasData from './data.json' assert { type: "json" };
-
+import { serve } from "https://deno.land/std/http/server.ts";
+import aliasData from "./data.json" assert { type: "json" };
 
 // These represent the file name for aliases
-const aliasCategories = Object.keys(aliasData.aliasDetails)
+const aliasCategories = Object.keys(aliasData.aliasDetails);
 
 // These represent the User-Agent String
-const networkTools = Object.keys(aliasData.tools)
+const networkTools = Object.keys(aliasData.tools);
 
 // Alias File Map {<language>: {<platform>: <file-data>}, ...}
-const aliasFiles = {}
+const aliasFiles = {};
 for await (const cat of aliasCategories) {
   aliasFiles[cat] = await Deno.readFile(`.${cat}.alias.sh`);
 }
 
 // Short Hand Map {<language>: <short-hand>}
-const shortMap = {}
+const shortMap = {};
 for await (const cat of aliasCategories) {
-  shortMap[
-    aliasData.aliasDetails[cat]['shorthand']
-  ] = cat
+  shortMap[aliasData.aliasDetails[cat]["shorthand"]] = cat;
 }
 
 // Bad Request String for category (lang) related errors
-let q400Str = `Valid Options are [  (null)`
+let q400Str = `Valid Options are [  (null)`;
 for (const shorthand in shortMap) {
-  const cat = shortMap[shorthand]
-  q400Str += `, ${cat} (${shorthand})`
+  const cat = shortMap[shorthand];
+  q400Str += `, ${cat} (${shorthand})`;
 }
-q400Str += ']'
+q400Str += "]";
 
 // newline for composite file
-const newline = new TextEncoder().encode('\n')
-
+const newline = new TextEncoder().encode("\n");
 
 // Server!
-async function requestHandler (request: Request): Response {
-
+async function requestHandler(request: Request): Response {
   const url = new URL(request.url);
 
   // Remove trailing '/'.
-  const pathName = url.pathname.replace(/\/$/, "")
+  const pathName = url.pathname.replace(/\/$/, "");
 
   // Return "Hello World" for pinger; https://github.com/ra101/pinger
-  if (pathName == '/home.html') {
-    return new Response("Hello World\n", {})
-  }
-
-  else if (pathName == '/help') {
-    return new Response("Hello World\n", {})
-  }
-
-  else if (pathName){
-    return new Response(
-      `Invalid ${url.pathname} path.\n`, {status: 400})
+  if (pathName == "/home.html") {
+    return new Response("Hello World\n", {});
+  } else if (pathName == "/help") {
+    return new Response("Hello World\n", {});
+  } else if (pathName) {
+    return new Response(`Invalid ${url.pathname} path.\n`, { status: 400 });
   }
 
   // Return composite Alias file for cURL and other tools
-  const userAgent = request.headers.get('user-agent')
-  if (userAgent && isCliRequest(userAgent)){
-      return await aliasFileResponse(url.searchParams);
+  const userAgent = request.headers.get("user-agent");
+  if (userAgent && isCliRequest(userAgent)) {
+    return await aliasFileResponse(url.searchParams);
   }
 
   // Return fetched page from https://ra101.dev/Alias-Alchemy
   return indexPageResponse();
 }
 
-async function indexPageResponse(): Response{
-
+async function indexPageResponse(): Response {
   // We fetch webpage on the fly, so that Deploy
   // minutes are not wasted on README changes
-  const webpage = await fetch('https://ra101.dev/Alias-Alchemy')
+  const webpage = await fetch("https://ra101.dev/Alias-Alchemy");
 
   let webpageHTML = await webpage.text();
-  webpageHTML = webpageHTML.replaceAll("\"\/", "\"https://ra101.dev/")
+  webpageHTML = webpageHTML.replaceAll('"/', '"https://ra101.dev/');
 
   const headers = new Headers(webpage.headers);
-  const init: ResponseInit = {headers};
+  const init: ResponseInit = { headers };
 
   return new Response(webpageHTML, init);
 }
 
-
-function isCliRequest(userAgent: string): Boolean{
-
+function isCliRequest(userAgent: string): Boolean {
   // return true, if User Agent value is one of the tools.
   for (const tool of networkTools) {
     if (userAgent.toLowerCase().includes(tool)) {
@@ -93,80 +80,74 @@ function isCliRequest(userAgent: string): Boolean{
   return false;
 }
 
+async function aliasFileResponse(searchParams: URLSearchParams) {
+  let query = searchParams.get("q") || "";
+  query = query
+    .toLowerCase()
+    .replaceAll(" ", "")
+    .replace(/(^,+)|(,+$)/g, "");
 
-async function aliasFileResponse(searchParams: URLSearchParams){
+  let qAliasCat: Array<string> = [];
 
-    let query = searchParams.get('q') || '';
-    query = query.toLowerCase().replaceAll(' ', '').replace(/(^,+)|(,+$)/g, '')
+  // if no `q` is sent, all languages are selected.
+  if (query == "") {
+    qAliasCat = [...aliasCategories];
+  }
+  // else validate each provided language.
+  else {
+    const qList = query.split(",");
+    for (const cat of qList) {
+      // tmpCat is initialized with actual name,
+      // even if the shorthand is provided.
+      const tmpCat: string = shortMap[cat] || cat;
 
-    let qAliasCat:Array<string> = []
-
-    // if no `q` is sent, all languages are selected.
-    if (query == '') {
-      qAliasCat = [...aliasCategories]
-    }
-    // else validate each provided language.
-    else {
-      const qList = query.split(',')
-      for (const cat of qList) {
-
-        // tmpCat is initialized with actual name,
-        // even if the shorthand is provided.
-        const tmpCat:string = shortMap[cat] || cat
-
-        // Validate each `q`
-        if (! aliasCategories.includes(tmpCat)) {
-          return new Response(
-            `Invalid Alias Category '${cat}'! ${q400Str}`, {status: 400}
-          );
-        }
-        qAliasCat.push(tmpCat)
+      // Validate each `q`
+      if (!aliasCategories.includes(tmpCat)) {
+        return new Response(`Invalid Alias Category '${cat}'! ${q400Str}`, {
+          status: 400,
+        });
       }
+      qAliasCat.push(tmpCat);
     }
-
-    // create composite alias file
-    const aliasFile = createAliasFile(qAliasCat)
-
-    // create headers for file response
-    const headers = new Headers();
-    headers.set('Content-Type', 'text/plain');
-    headers.set(
-      'Content-Disposition',
-      `attachment; filename=".alias.sh"`
-    )
-    const init: ResponseInit = {headers};
-
-    return new Response(aliasFile, init)
-}
-
-
-// Create Composite Alias File
-function createAliasFile(qAliasCat: Array<string>){
-
-  // Calculate the total size of the composite alias file.
-  let aliasFileSize = 0
-  for (const cat of qAliasCat) {
-    aliasFileSize += (aliasFiles[cat].length + newline.length)
   }
 
-  let sizeOffset = 0
-  const aliasFile = new Uint8Array(aliasFileSize)
+  // create composite alias file
+  const aliasFile = createAliasFile(qAliasCat);
+
+  // create headers for file response
+  const headers = new Headers();
+  headers.set("Content-Type", "text/plain");
+  headers.set("Content-Disposition", `attachment; filename=".alias.sh"`);
+  const init: ResponseInit = { headers };
+
+  return new Response(aliasFile, init);
+}
+
+// Create Composite Alias File
+function createAliasFile(qAliasCat: Array<string>) {
+  // Calculate the total size of the composite alias file.
+  let aliasFileSize = 0;
+  for (const cat of qAliasCat) {
+    aliasFileSize += aliasFiles[cat].length + newline.length;
+  }
+
+  let sizeOffset = 0;
+  const aliasFile = new Uint8Array(aliasFileSize);
 
   for (const cat of qAliasCat) {
     // Add file data and newline to composite file.
-    aliasFile.set(aliasFiles[cat], sizeOffset)
-    sizeOffset += aliasFiles[cat].length
-    aliasFile.set(newline, sizeOffset)
-    sizeOffset += newline.length
+    aliasFile.set(aliasFiles[cat], sizeOffset);
+    sizeOffset += aliasFiles[cat].length;
+    aliasFile.set(newline, sizeOffset);
+    sizeOffset += newline.length;
   }
 
-  return aliasFile
+  return aliasFile;
 }
 
-let port = 80
-if (Deno.args.find((e) => e == '--debug')) {
-  port = 8080
+let port = 80;
+if (Deno.args.find((e) => e == "--debug")) {
+  port = 8080;
 }
 
 serve(requestHandler, { port: port });
-
