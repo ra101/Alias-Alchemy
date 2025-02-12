@@ -4,5 +4,5 @@ server:
 dev-server:
 	deno run --allow-net=:8080 --allow-read --watch server.ts --debug
 
-readme:
-	deno run --allow-write --allow-read update_readme.ts
+docs:
+	deno run --allow-write --allow-read update_docs.ts

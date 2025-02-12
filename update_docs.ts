@@ -110,7 +110,46 @@ async function updateIndex() {
   await Deno.writeTextFile("index.md", indexText);
 }
 
+
+async function updateVersion() {
+
+  // read version file
+  const fileName = ".version";
+
+  // RegEx to fetch major, minor and patch version
+  const match = (new TextDecoder().decode(
+    await Deno.readFile(fileName))).replaceAll("\r", "").match(
+      /^v?(\d+)\.(\d+)\.(\d+)$/)
+
+  if (!match) {
+      throw new Error("Invalid version format.");
+  }
+
+  let versionObj = {
+      major: parseInt(match[1]),
+      minor: parseInt(match[2]),
+      patch: parseInt(match[3]),
+  };
+
+  const numAliasCat = Object.keys(aliasCategories).length
+
+  // If no new category is created then increment minor version
+  // else increment major version and reset minor version.
+  if ( numAliasCat != versionObj.minor){
+    versionObj.patch = 0
+    versionObj.minor = numAliasCat
+  } else {
+    versionObj.patch += 1
+  }
+
+  const newVersion = `v${versionObj.major}.${versionObj.minor}.${versionObj.patch}`
+
+  await Deno.writeTextFile(fileName, newVersion);
+}
+
+
 const aliasCategories = aliasData.aliasDetails;
 const networkTools = aliasData.tools;
 await updateReadme();
 await updateIndex();
+await updateVersion()
