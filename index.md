@@ -13,20 +13,17 @@ The best way to download alias for fast setup.
 
 <h2> Usage </h2>
 
-<b>Step 1</b>: Using any of the following tools, send a <code>GET</code> request to alias alchemy domain with/without <code>q (default all)</code> and <code>sys (default: linux)</code> query parameters to <b>download the composite alias file</b>.
+<b>Step 1</b>: Using any of the following tools, send a <code>GET</code> request to alias alchemy domain with/without <code>q (default all)</code> query parameter to <b>download the composite alias file</b> and the finally save this file at the <b><code>~/.alias.sh</code></b>.
 
 <br/><br/>
-
-<ul>
-	<li> Linux Path: <code>~/.alias.sh</code> </li>
-	<li> Windows Path: <code>%USERPROFILE%\.alias.cmd</code> </li>
-</ul>
 
 <ul>
 <details open>
 	<summary> Using <a href="https://curl.se/"> cURL </a> </summary> <br/>
 
-<pre><code class="language-bash">curl -L "alias-alchemy.ra101.dev?q=py,dj,docker&sys=linux" > ~/.alias.sh</code></pre>
+<pre><code class="language-bash">curl -L "alal.deno.dev" > ~/.alias.sh
+
+curl -L "alias-alchemy.ra101.dev?q=py,dj,docker" > ~/.alias.sh</code></pre>
 
 </details>
 </ul>
@@ -35,7 +32,7 @@ The best way to download alias for fast setup.
 <details>
 	<summary> Using <a href="https://www.gnu.org/software/wget/"> Wget </a> </summary> <br/>
 
-<pre><code class="language-bash">wget "alias-alchemy.ra101.dev?q=py,dj,docker&sys=win" -O %USERPROFILE%\.alias.cmd</code></pre>
+<pre><code class="language-bash">wget "alias-alchemy.ra101.dev?q=py,dj,docker" -O ~/.alias.sh</code></pre>
 
 </details>
 </ul>
@@ -48,7 +45,6 @@ The best way to download alias for fast setup.
 
 <table><tbody>
 <tr><td> <a href="https://httpie.io/"> HTTPie </a> </td> <td> <code> http -d [url] > [filepath] </code> </td></tr>
-<tr><td> <a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-webrequest/"> Invoke-WebRequest </a> </td> <td> <code> Invoke-WebRequest [url] -O [filepath] </code> </td></tr>
 <tr><td> <a href="https://aria2.github.io/"> aria2 </a> </td> <td> <code> aria2c -c [url] > [filepath] </code> </td></tr>
 <tr><td> <a href="https://www.postman.com/"> Postman </a> </td> <td> <code> GET [url] | Save to File </code> </td></tr>
 <tr><td> Any Tool </td> <td> <code> [tool] [header: {'User-Agent': 'alal'}] [url] > [filepath] </code> </td></tr>
@@ -69,13 +65,7 @@ The best way to download alias for fast setup.
 
 <br/><br/>
 
-<ul>
-<details open class="linux-details">
-	<summary> Linux Setup </summary> <br/>
-
- Assuming we saved the file at <code>~/.alias.sh</code>, run the following command 
-
-<br/><br/>
+Assuming we saved the file at <code>~/.alias.sh</code>, run the following command:
 
 <pre><code class="language-bash"># Append `Executing Command (source)` in the shell's configuration profile.
 ## Bash 
@@ -83,23 +73,6 @@ grep -qxF 'source ~/.alias.sh' ~/.bashrc || echo 'source ~/.alias.sh' >> ~/.bash
 
 ## ZSH 
 grep -qxF 'source ~/.alias.sh' ~/.zshrc || echo 'source ~/.alias.sh' >> ~/.zshrc</code></pre>
-
-</details>
-</ul>
-
-<ul>
-<details class="win-details">
-	<summary> Windows Setup </summary> <br/>
-
- Assuming we saved the file at <code>%USERPROFILE%\.alias.cmd</code>, run the following command in <b>Administrator Mode</b>
-
-<br/><br/>
-
-<pre><code class="language-dos">REM Adding `AutoRun` key (string) in Windows registry and setting the value to the file path. 
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Command Processor" /f /v "AutoRun" /t REG_SZ /d "%USERPROFILE%\.alias.cmd"</code></pre>
-
-</details>
-</ul>
 
 <br/>
 
@@ -122,57 +95,48 @@ fetch-alias kubernetes >> ~/.alias.sh</code></pre>
 
 <aliasText>
 <details>
-	<summary> <h4 style="display:inline-block;"> <a href="https://www.python.org/"> Python </a> (py) Aliases </h4> </summary>
-<ul><details open class="linux-details">
-	<summary>Linux Aliases (<code>.python.alias.sh</code>)</summary> <br/>
+	<summary> <h4 style="display:inline-block;">〉<a href="null"> Shell </a> (sh) Aliases </h4> </summary>
+
+<pre><code class="language-bash"># Shell Alias
+</code></pre>
+
+</details>
+</details>
+
+<details>
+	<summary> <h4 style="display:inline-block;">〉<a href="https://www.python.org/"> Python </a> (py) Aliases </h4> </summary>
 
 <pre><code class="language-bash"># Python Aliases
 </code></pre>
 
-</details></ul>
-<ul><details class="win-details">
-	<summary>Windows Aliases (<code>.python.alias.cmd</code>)</summary> <br/>
-
-<pre><code class="language-bash"># Python Aliases
-</code></pre>
-
-</details></ul>
+</details>
 </details>
 
 <details>
-	<summary> <h4 style="display:inline-block;"> <a href="https://www.docker.com/"> Docker </a> (dc) Aliases </h4> </summary>
-<ul><details open class="linux-details">
-	<summary>Linux Aliases (<code>.docker.alias.sh</code>)</summary> <br/>
-
-<pre><code class="language-bash"># Docker Aliases
-</code></pre>
-
-</details></ul>
-<ul><details class="win-details">
-	<summary>Windows Aliases (<code>.docker.alias.cmd</code>)</summary> <br/>
-
-<pre><code class="language-bash"># Docker Aliases
-</code></pre>
-
-</details></ul>
-</details>
-
-<details>
-	<summary> <h4 style="display:inline-block;"> <a href="https://www.djangoproject.com/"> Django </a> (dj) Aliases </h4> </summary>
-<ul><details open class="linux-details">
-	<summary>Linux Aliases (<code>.django.alias.sh</code>)</summary> <br/>
+	<summary> <h4 style="display:inline-block;">〉<a href="https://www.djangoproject.com/"> Django </a> (dj) Aliases </h4> </summary>
 
 <pre><code class="language-bash"># Django Aliases
 </code></pre>
 
-</details></ul>
-<ul><details class="win-details">
-	<summary>Windows Aliases (<code>.django.alias.cmd</code>)</summary> <br/>
+</details>
+</details>
 
-<pre><code class="language-bash"># Django Aliases
+<details>
+	<summary> <h4 style="display:inline-block;">〉<a href="https://www.docker.com/"> Docker </a> (dc) Aliases </h4> </summary>
+
+<pre><code class="language-bash"># Docker Aliases
 </code></pre>
 
-</details></ul>
+</details>
+</details>
+
+<details>
+	<summary> <h4 style="display:inline-block;">〉<a href="https://kubernetes.io/"> Kubernetes </a> (k8s) Aliases </h4> </summary>
+
+<pre><code class="language-bash"># Kubernetes Alias
+</code></pre>
+
+</details>
 </details>
 
 

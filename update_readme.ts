@@ -8,24 +8,13 @@ async function createAliasText(aliasCategories) {
     const linuxAliases = new TextDecoder().decode(
       await Deno.readFile(`.${cat}.alias.sh`)
     );
-    const winAliases = new TextDecoder().decode(
-      await Deno.readFile(`.${cat}.alias.cmd`)
-    );
 
     const link = aliasCategories[cat]['link']
     aliasText += `<details>\n\t<summary> `
-    aliasText += `<h4 style="display:inline-block;"> <a href="${link}"> ${aliasCategories[cat]['display']} </a>`
+    aliasText += `<h4 style="display:inline-block;">〉<a href="${link}"> ${aliasCategories[cat]['display']} </a>`
     aliasText += ` (${aliasCategories[cat]['shorthand']})`
     aliasText += ' Aliases </h4> </summary>'
-    
-    aliasText += '\n<ul><details open class="linux-details">\n\t<summary>'
-    aliasText += `Linux Aliases (<code>.${cat}.alias.sh</code>)</summary> <br/>`
-    aliasText += `\n\n\`\`\`bash\n${linuxAliases}\n\`\`\`\n\n</details></ul>`
-
-    aliasText += '\n<ul><details class="win-details">\n\t<summary>'
-    aliasText += `Windows Aliases (<code>.${cat}.alias.cmd</code>)</summary> <br/>`
-    aliasText += `\n\n\`\`\`bash\n${winAliases}\n\`\`\`\n\n</details></ul>`
-
+    aliasText += `\n\n\`\`\`bash\n${linuxAliases}\n\`\`\`\n\n</details>`
     aliasText += '\n</details>\n\n'
   }
   return aliasText

@@ -11,9 +11,7 @@ const networkTools = Object.keys(aliasData.tools)
 // Alias File Map {<language>: {<platform>: <file-data>}, ...}
 const aliasFiles = {}
 for await (const cat of aliasCategories) {
-  aliasFiles[cat] = {}
-  aliasFiles[cat]["linux"] = await Deno.readFile(`.${cat}.alias.sh`);
-  aliasFiles[cat]["win"] = await Deno.readFile(`.${cat}.alias.cmd`);
+  aliasFiles[cat] = await Deno.readFile(`.${cat}.alias.sh`);
 }
 
 // Short Hand Map {<language>: <short-hand>}
@@ -21,11 +19,8 @@ const shortMap = {}
 for await (const cat of aliasCategories) {
   shortMap[
     aliasData.aliasDetails[cat]['shorthand']
-  ] = cat 
+  ] = cat
 }
-
-// Bad Request String for platform related errors
-const sys400Str = 'Valid Options are [linux, win]'
 
 // Bad Request String for category (lang) related errors
 let q400Str = `Valid Options are [  (null)`
@@ -42,15 +37,29 @@ const newline = new TextEncoder().encode('\n')
 // Server!
 async function requestHandler (request: Request): Response {
 
+  const url = new URL(request.url);
+
+  // Remove trailing '/'.
+  const pathName = url.pathname.replace(/\/$/, "")
+
   // Return "Hello World" for pinger; https://github.com/ra101/pinger
-  if (request.url.endsWith('/home.html')) {
-    return new Response("Hello World", {})
+  if (pathName == '/home.html') {
+    return new Response("Hello World\n", {})
+  }
+
+  else if (pathName == '/help') {
+    return new Response("Hello World\n", {})
+  }
+
+  else if (pathName){
+    return new Response(
+      `Invalid ${url.pathname} path.\n`, {status: 400})
   }
 
   // Return composite Alias file for cURL and other tools
   const userAgent = request.headers.get('user-agent')
   if (userAgent && isCliRequest(userAgent)){
-      return await aliasFileResponse(request);
+      return await aliasFileResponse(url.searchParams);
   }
 
   // Return fetched page from https://ra101.dev/Alias-Alchemy
@@ -59,12 +68,12 @@ async function requestHandler (request: Request): Response {
 
 async function indexPageResponse(): Response{
 
-  // We fetch webpage on the fly, so that Deploy 
+  // We fetch webpage on the fly, so that Deploy
   // minutes are not wasted on README changes
   const webpage = await fetch('https://ra101.dev/Alias-Alchemy')
 
   let webpageHTML = await webpage.text();
-  webpageHTML = webpageHTML.replaceAll("\"\/", "\"https://ra101.dev/")  
+  webpageHTML = webpageHTML.replaceAll("\"\/", "\"https://ra101.dev/")
 
   const headers = new Headers(webpage.headers);
   const init: ResponseInit = {headers};
@@ -85,28 +94,14 @@ function isCliRequest(userAgent: string): Boolean{
 }
 
 
-async function aliasFileResponse(request: Request){
-
-    // get `q` and `sys` from url params and clean them up.
-    let searchParams = (new URL(request.url)).searchParams
+async function aliasFileResponse(searchParams: URLSearchParams){
 
     let query = searchParams.get('q') || '';
     query = query.toLowerCase().replaceAll(' ', '').replace(/(^,+)|(,+$)/g, '')
 
-    let platform = searchParams.get('sys') || 'linux';
-    platform = platform.toLowerCase().replaceAll(' ', '')
-    const filetype = {'linux': 'sh', 'win': 'cmd'}[platform]
-
-    // Validate `sys`
-    if (!["linux", "win"].includes(platform)){
-      return new Response(
-        `Invalid System '${platform}'! ${sys400Str}`, { status: 400 }
-      );
-    }
-
     let qAliasCat:Array<string> = []
 
-    // if no `q` is sent, all languages are selected. 
+    // if no `q` is sent, all languages are selected.
     if (query == '') {
       qAliasCat = [...aliasCategories]
     }
@@ -117,12 +112,12 @@ async function aliasFileResponse(request: Request){
 
         // tmpCat is initialized with actual name,
         // even if the shorthand is provided.
-        const tmpCat:string = shortMap[cat] || cat 
+        const tmpCat:string = shortMap[cat] || cat
 
         // Validate each `q`
         if (! aliasCategories.includes(tmpCat)) {
           return new Response(
-            `Invalid Alias Category '${cat}'! ${q400Str}`, { status: 400 }
+            `Invalid Alias Category '${cat}'! ${q400Str}`, {status: 400}
           );
         }
         qAliasCat.push(tmpCat)
@@ -130,51 +125,48 @@ async function aliasFileResponse(request: Request){
     }
 
     // create composite alias file
-    const aliasFile = createAliasFile(qAliasCat, platform)
+    const aliasFile = createAliasFile(qAliasCat)
 
     // create headers for file response
     const headers = new Headers();
     headers.set('Content-Type', 'text/plain');
     headers.set(
       'Content-Disposition',
-      `attachment; filename=".alias.${filetype}"`
+      `attachment; filename=".alias.sh"`
     )
     const init: ResponseInit = {headers};
 
     return new Response(aliasFile, init)
-  }
+}
 
 
 // Create Composite Alias File
-function createAliasFile(qAliasCat: Array<string>, platform: string){
-  
+function createAliasFile(qAliasCat: Array<string>){
+
   // Calculate the total size of the composite alias file.
-  let aliasFileSize = 0  
+  let aliasFileSize = 0
   for (const cat of qAliasCat) {
-    aliasFileSize += (aliasFiles[cat][platform].length + newline.length)
+    aliasFileSize += (aliasFiles[cat].length + newline.length)
   }
-  aliasFileSize -= newline.length // removing last newline
-  
+
   let sizeOffset = 0
   const aliasFile = new Uint8Array(aliasFileSize)
-  const lastCategory = qAliasCat[qAliasCat.length - 1] 
 
   for (const cat of qAliasCat) {
-
-    // Add file data to composite file.
-    aliasFile.set(aliasFiles[cat][platform], sizeOffset)
-
-    // Add `\n`, if not the last file
-    if (cat != lastCategory){
-      sizeOffset += aliasFiles[cat][platform].length
-      aliasFile.set(newline, sizeOffset)
-      sizeOffset += newline.length
-    }
+    // Add file data and newline to composite file.
+    aliasFile.set(aliasFiles[cat], sizeOffset)
+    sizeOffset += aliasFiles[cat].length
+    aliasFile.set(newline, sizeOffset)
+    sizeOffset += newline.length
   }
 
   return aliasFile
 }
 
+let port = 80
+if (Deno.args.find((e) => e == '--debug')) {
+  port = 8080
+}
 
-serve(requestHandler, { port: 80 });
+serve(requestHandler, { port: port });
 

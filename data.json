@@ -2,23 +2,18 @@
     "tools": {
         "curl": {
             "display": "cURL",
-            "command": "curl -L \"alias-alchemy.ra101.dev?q=py,dj,docker&sys=linux\" > ~/.alias.sh",
+            "command": "curl -L \"alias-alchemy.ra101.dev?q=py,dj,docker\" > ~/.alias.sh",
             "link": "https://curl.se/"
         },
         "wget": {
             "display": "Wget",
-            "command": "wget \"alias-alchemy.ra101.dev?q=py,dj,docker&sys=win\" > ~/.alias.cmd",
+            "command": "wget \"alias-alchemy.ra101.dev\" > ~/.alias.sh",
             "link": "https://www.gnu.org/software/wget/"
         },
         "httpie": {
             "display": "HTTPie",
             "command": "http -d [url] > [filepath]",
             "link": "https://httpie.io/"
-        },
-        "windowspowershell": {
-            "display": "Invoke-WebRequest",
-            "command": "Invoke-WebRequest [url] -O [filepath]",
-            "link": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-webrequest/"            
         },
         "aria2": {
             "display": "aria2",
@@ -37,20 +32,30 @@
         }
     },
     "aliasDetails": {
+        "shell": {
+            "display": "Shell",
+            "shorthand": "sh",
+            "link": null
+        },
         "python": {
             "display": "Python",
             "shorthand": "py",
             "link": "https://www.python.org/"
+        },
+        "django": {
+            "display": "Django",
+            "shorthand": "dj",
+            "link": "https://www.djangoproject.com/"
         },
         "docker": {
             "display": "Docker",
             "shorthand": "dc",
             "link": "https://www.docker.com/"
         },
-        "django": {
-            "display": "Django",
-            "shorthand": "dj",
-            "link": "https://www.djangoproject.com/"
+        "kubernetes": {
+            "display": "Kubernetes",
+            "shorthand": "k8s",
+            "link": "https://kubernetes.io/"
         }
     }
 }
