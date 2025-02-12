@@ -1,11 +1,14 @@
+import { join as join_path } from "jsr:@std/path";
+
 import aliasData from "./data.json" assert { type: "json" };
+
 
 async function createAliasText(aliasCategories) {
   let aliasText = "";
 
   for await (const cat of Object.keys(aliasCategories)) {
     const linuxAliases = new TextDecoder().decode(
-      await Deno.readFile(`.${cat}.alias.sh`)
+      await Deno.readFile(join_path("aliases", `.${cat}.alias.sh`))
     );
 
     const link = aliasCategories[cat]["link"];
@@ -91,12 +94,6 @@ async function updateIndex() {
   );
   readmeText = readmeText.replaceAll("\n```", "</code></pre>");
 
-  // Replace \\\\ -> \\
-  readmeText = readmeText.replaceAll(
-    "%USERPROFILE%\\\\.alias.cmd",
-    "%USERPROFILE%\\.alias.cmd"
-  );
-
   // 2 br tags are required in some places to look nice
   readmeText = readmeText.replaceAll('<be times="2" />', "<br/><br/>");
 
@@ -110,46 +107,44 @@ async function updateIndex() {
   await Deno.writeTextFile("index.md", indexText);
 }
 
-
 async function updateVersion() {
-
   // read version file
   const fileName = ".version";
 
   // RegEx to fetch major, minor and patch version
-  const match = (new TextDecoder().decode(
-    await Deno.readFile(fileName))).replaceAll("\r", "").match(
-      /^v?(\d+)\.(\d+)\.(\d+)$/)
+  const match = new TextDecoder()
+    .decode(await Deno.readFile(fileName))
+    .replaceAll("\r", "")
+    .match(/^v?(\d+)\.(\d+)\.(\d+)$/);
 
   if (!match) {
-      throw new Error("Invalid version format.");
+    throw new Error("Invalid version format.");
   }
 
   let versionObj = {
-      major: parseInt(match[1]),
-      minor: parseInt(match[2]),
-      patch: parseInt(match[3]),
+    major: parseInt(match[1]),
+    minor: parseInt(match[2]),
+    patch: parseInt(match[3]),
   };
 
-  const numAliasCat = Object.keys(aliasCategories).length
+  const numAliasCat = Object.keys(aliasCategories).length;
 
   // If no new category is created then increment minor version
   // else increment major version and reset minor version.
-  if ( numAliasCat != versionObj.minor){
-    versionObj.patch = 0
-    versionObj.minor = numAliasCat
+  if (numAliasCat != versionObj.minor) {
+    versionObj.patch = 0;
+    versionObj.minor = numAliasCat;
   } else {
-    versionObj.patch += 1
+    versionObj.patch += 1;
   }
 
-  const newVersion = `v${versionObj.major}.${versionObj.minor}.${versionObj.patch}`
+  const newVersion = `v${versionObj.major}.${versionObj.minor}.${versionObj.patch}`;
 
   await Deno.writeTextFile(fileName, newVersion);
 }
-
 
 const aliasCategories = aliasData.aliasDetails;
 const networkTools = aliasData.tools;
 await updateReadme();
 await updateIndex();
-await updateVersion()
+await updateVersion();

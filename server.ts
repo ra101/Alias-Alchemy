@@ -1,5 +1,8 @@
+import { join as join_path } from "jsr:@std/path";
 import { serve } from "https://deno.land/std/http/server.ts";
+
 import aliasData from "./data.json" assert { type: "json" };
+
 
 // These represent the file name for aliases
 const aliasCategories = Object.keys(aliasData.aliasDetails);
@@ -10,7 +13,9 @@ const networkTools = Object.keys(aliasData.tools);
 // Alias File Map {<language>: {<platform>: <file-data>}, ...}
 const aliasFiles = {};
 for await (const cat of aliasCategories) {
-  aliasFiles[cat] = await Deno.readFile(`.${cat}.alias.sh`);
+  aliasFiles[cat] = await Deno.readFile(
+    join_path("aliases", `.${cat}.alias.sh`)
+  );
 }
 
 // Short Hand Map {<language>: <short-hand>}
