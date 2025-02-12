@@ -1,8 +1,9 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/a11y-light.min.css"><link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css"/>
+<link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/a11y-light.min.css">
 
 <style>
-.hljs-copy-button {transform: None; filter:invert(1)}
-.hljs {color: purple}
+.hljs {color: purple; font-weight: bold;}
+.hljs-comment {font-weight: normal;}
 </style>
 
 <indexMarkdown>
@@ -21,9 +22,14 @@ The best way to download alias for fast setup.
 <details open>
 	<summary> Using <a href="https://curl.se/"> cURL </a> </summary> <br/>
 
-<pre><code class="language-bash">curl -L "alal.deno.dev" > ~/.alias.sh
+<pre style="overflow: hidden"><code class="language-bash"># Fetch all aliases at once.
+curl -L "alal.deno.dev" > ~/.alias.sh
 
-curl -L "alias-alchemy.ra101.dev?q=py,dj,docker" > ~/.alias.sh</code></pre>
+# Fetch aliases based on query param.
+curl -L "alias-alchemy.ra101.dev?q=py,dj,docker" > ~/.alias.sh
+
+# /help endpoint to get usage.
+curl -L "alal.deno.dev/help"</code></pre>
 
 </details>
 </ul>
@@ -32,7 +38,7 @@ curl -L "alias-alchemy.ra101.dev?q=py,dj,docker" > ~/.alias.sh</code></pre>
 <details>
 	<summary> Using <a href="https://www.gnu.org/software/wget/"> Wget </a> </summary> <br/>
 
-<pre><code class="language-bash">wget "alias-alchemy.ra101.dev?q=py,dj,docker" -O ~/.alias.sh</code></pre>
+<pre style="overflow: hidden"><code class="language-bash">wget "alias-alchemy.ra101.dev?q=py,dj,docker" -O ~/.alias.sh</code></pre>
 
 </details>
 </ul>
@@ -67,7 +73,9 @@ curl -L "alias-alchemy.ra101.dev?q=py,dj,docker" > ~/.alias.sh</code></pre>
 
 Assuming we saved the file at <code>~/.alias.sh</code>, run the following command:
 
-<pre><code class="language-bash"># Append `Executing Command (source)` in the shell's configuration profile.
+<br/><br/>
+
+<pre style="overflow: hidden"><code class="language-bash"># Append `Executing Command (source)` in the shell's configuration profile.
 ## Bash 
 grep -qxF 'source ~/.alias.sh' ~/.bashrc || echo 'source ~/.alias.sh' >> ~/.bashrc
 
@@ -81,11 +89,7 @@ grep -qxF 'source ~/.alias.sh' ~/.zshrc || echo 'source ~/.alias.sh' >> ~/.zshrc
 <br/><br/>
 <ul>
 
-<pre><code class="language-bash"># Using Direct Command
-curl -L "alias-alchemy.ra101.dev?q=kubernetes" >> ~/.alias.sh
-
-# Using Alias
-fetch-alias kubernetes >> ~/.alias.sh</code></pre>
+<pre style="overflow: hidden"><code class="language-bash">curl -L "alias-alchemy.ra101.dev?q=kubernetes" >> ~/.alias.sh</code></pre>
 
 </ul>
 
@@ -97,7 +101,7 @@ fetch-alias kubernetes >> ~/.alias.sh</code></pre>
 <details>
 	<summary> <h4 style="display:inline-block;">〉<a href="null"> Shell </a> (sh) Aliases </h4> </summary>
 
-<pre><code class="language-bash"># Shell Aliases
+<pre style="overflow: hidden"><code class="language-bash"># Shell Aliases
 </code></pre>
 
 </details>
@@ -105,7 +109,7 @@ fetch-alias kubernetes >> ~/.alias.sh</code></pre>
 <details>
 	<summary> <h4 style="display:inline-block;">〉<a href="https://www.python.org/"> Python </a> (py) Aliases </h4> </summary>
 
-<pre><code class="language-bash"># Python Aliases
+<pre style="overflow: hidden"><code class="language-bash"># Python Aliases
 </code></pre>
 
 </details>
@@ -113,7 +117,7 @@ fetch-alias kubernetes >> ~/.alias.sh</code></pre>
 <details>
 	<summary> <h4 style="display:inline-block;">〉<a href="https://www.djangoproject.com/"> Django </a> (dj) Aliases </h4> </summary>
 
-<pre><code class="language-bash"># Django Aliases
+<pre style="overflow: hidden"><code class="language-bash"># Django Aliases
 </code></pre>
 
 </details>
@@ -121,7 +125,7 @@ fetch-alias kubernetes >> ~/.alias.sh</code></pre>
 <details>
 	<summary> <h4 style="display:inline-block;">〉<a href="https://www.docker.com/"> Docker </a> (dc) Aliases </h4> </summary>
 
-<pre><code class="language-bash"># Docker Aliases
+<pre style="overflow: hidden"><code class="language-bash"># Docker Aliases
 </code></pre>
 
 </details>
@@ -129,7 +133,7 @@ fetch-alias kubernetes >> ~/.alias.sh</code></pre>
 <details>
 	<summary> <h4 style="display:inline-block;">〉<a href="https://kubernetes.io/"> Kubernetes </a> (k) Aliases </h4> </summary>
 
-<pre><code class="language-bash"># Kubernetes Aliases
+<pre style="overflow: hidden"><code class="language-bash"># Kubernetes Aliases
 </code></pre>
 
 </details>

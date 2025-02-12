@@ -86,11 +86,7 @@ async function updateIndex() {
   // Replace ```lang``` with Highlight.js syntax
   readmeText = readmeText.replaceAll(
     "```bash\n",
-    '<pre><code class="language-bash">'
-  );
-  readmeText = readmeText.replaceAll(
-    "```batch\n",
-    '<pre><code class="language-dos">'
+    '<pre style="overflow: hidden"><code class="language-bash">'
   );
   readmeText = readmeText.replaceAll("\n```", "</code></pre>");
 

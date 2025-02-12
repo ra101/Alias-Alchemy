@@ -16,9 +16,14 @@ The best way to download alias for fast setup.
 	<summary> Using <a href="https://curl.se/"> cURL </a> </summary> <br/>
 
 ```bash
+# Fetch all aliases at once.
 curl -L "alal.deno.dev" > ~/.alias.sh
 
+# Fetch aliases based on query param.
 curl -L "alias-alchemy.ra101.dev?q=py,dj,docker" > ~/.alias.sh
+
+# /help endpoint to get usage.
+curl -L "alal.deno.dev/help"
 ```
 
 </details>
@@ -65,6 +70,8 @@ wget "alias-alchemy.ra101.dev?q=py,dj,docker" -O ~/.alias.sh
 
 Assuming we saved the file at <code>~/.alias.sh</code>, run the following command:
 
+<be times="2" />
+
 ```bash
 # Append `Executing Command (source)` in the shell's configuration profile.
 ## Bash 
@@ -82,11 +89,7 @@ grep -qxF 'source ~/.alias.sh' ~/.zshrc || echo 'source ~/.alias.sh' >> ~/.zshrc
 <ul>
 
 ```bash
-# Using Direct Command
 curl -L "alias-alchemy.ra101.dev?q=kubernetes" >> ~/.alias.sh
-
-# Using Alias
-fetch-alias kubernetes >> ~/.alias.sh
 ```
 
 </ul>
