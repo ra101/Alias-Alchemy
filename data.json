@@ -1,61 +1,56 @@
 {
-    "tools": {
-        "curl": {
-            "display": "cURL",
-            "command": "curl -L \"alias-alchemy.ra101.dev?q=py,dj,docker\" > ~/.alias.sh",
-            "link": "https://curl.se/"
-        },
-        "wget": {
-            "display": "Wget",
-            "command": "wget \"alias-alchemy.ra101.dev\" > ~/.alias.sh",
-            "link": "https://www.gnu.org/software/wget/"
-        },
-        "httpie": {
-            "display": "HTTPie",
-            "command": "http -d [url] > [filepath]",
-            "link": "https://httpie.io/"
-        },
-        "aria2": {
-            "display": "aria2",
-            "command": "aria2c -c [url] > [filepath]",
-            "link": "https://aria2.github.io/"
-        },
-        "postmanruntime": {
-            "display": "Postman",
-            "command": "GET [url] | Save to File",
-            "link": "https://www.postman.com/"
-        },
-        "alal": {
-            "display": "Any Tool",
-            "command": "[tool] [header: {'User-Agent': 'alal'}] [url] > [filepath]",
-            "link": null
-        }
-    },
-    "aliasDetails": {
-        "shell": {
-            "display": "Shell",
-            "shorthand": "sh",
-            "link": null
-        },
-        "python": {
-            "display": "Python",
-            "shorthand": "py",
-            "link": "https://www.python.org/"
-        },
-        "django": {
-            "display": "Django",
-            "shorthand": "dj",
-            "link": "https://www.djangoproject.com/"
-        },
-        "docker": {
-            "display": "Docker",
-            "shorthand": "dc",
-            "link": "https://www.docker.com/"
-        },
-        "kubernetes": {
-            "display": "Kubernetes",
-            "shorthand": "k",
-            "link": "https://kubernetes.io/"
-        }
-    }
+	"tools": {
+		"curl": {
+			"display": "cURL",
+			"command": "curl -L \"alias-alchemy.ra101.dev?q=py,dj,docker\" > ~/.alias.sh",
+			"link": "https://curl.se/"
+		},
+		"wget": {
+			"display": "Wget",
+			"command": "wget \"alias-alchemy.ra101.dev\" > ~/.alias.sh",
+			"link": "https://www.gnu.org/software/wget/"
+		},
+		"httpie": {
+			"display": "HTTPie",
+			"command": "http -d [url] > [filepath]",
+			"link": "https://httpie.io/"
+		},
+		"aria2": {
+			"display": "aria2",
+			"command": "aria2c -c [url] > [filepath]",
+			"link": "https://aria2.github.io/"
+		},
+		"postmanruntime": {
+			"display": "Postman",
+			"command": "GET [url] | Save to File",
+			"link": "https://www.postman.com/"
+		},
+		"alal": {
+			"display": "Any Tool",
+			"command": "[tool] [header: {'User-Agent': 'alal'}] [url] > [filepath]",
+			"link": null
+		}
+	},
+	"aliasDetails": {
+		"shell": {
+			"display": "Shell",
+			"shorthand": "sh",
+			"link": null
+		},
+		"python": {
+			"display": "Python",
+			"shorthand": "py",
+			"link": "https://www.python.org/"
+		},
+		"docker": {
+			"display": "Docker",
+			"shorthand": "dc",
+			"link": "https://www.docker.com/"
+		},
+		"kubernetes": {
+			"display": "Kubernetes",
+			"shorthand": "k",
+			"link": "https://kubernetes.io/"
+		}
+	}
 }

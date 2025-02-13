@@ -1,7 +1,7 @@
 # Python Aliases
 
 DEFAULT_VENV_DIR='./venv'
-actenv() {source "$DEFAULT_VENV_DIR"/bin/activate}
+alias actenv='source $DEFAULT_VENV_DIR/bin/activate'
 
 alias py='python'
 alias py2='python2'
@@ -10,7 +10,7 @@ alias ptpy='ptpython'
 alias ipy='ipython'
 
 alias jn='jupyter notebook'
-alias crtenv="python -m venv $DEFAULT_VENV_DIR"
+alias crtenv='python -m venv $DEFAULT_VENV_DIR'
 
 alias pi='pip install'
 alias pir='pip install -r requirements.txt'
@@ -21,7 +21,7 @@ alias pfr='pip freeze | sort > requirements.txt'
 
 if command -v uv &> /dev/null; then
   alias upy='uv python'
-  alias crtenv="uv python venv $DEFAULT_VENV_DIR"
+  alias crtenv='uv python venv $DEFAULT_VENV_DIR'
 
   alias pi='uv pip install'
   alias pir='uv pip install -r requirements.txt'
@@ -32,6 +32,7 @@ if command -v uv &> /dev/null; then
 fi
 
 alias pyserve="python3 -m http.server"
+
 pyclean () {
     find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 }

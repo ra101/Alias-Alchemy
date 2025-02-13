@@ -26,48 +26,49 @@ alias sadu='sudo apt dist-upgrade'
 alias sar='sudo apt autoremove'
 
 function long_clear() {
-    len=$1
-    len=${len:-10}
-    printf '\n%.0s' {1..${len}}
+    len=${1:-10}
+    for ((i=1; i <= len; i++)) do
+        printf '\n'
+    done
 }
 
 alias lcls='long_clear'
 
 cat() {
-  for file in "$@"; do
-      ext="${file##*.}"
-      case "$ext" in
-          json)
-            if command -v python &> /dev/null && command -v pygmentize &> /dev/null; then
-                command python -m json.tool "$file" | pygmentize -l json
-            else
-                command cat "$file"
-            fi
-            ;;
-          yaml|yml)
-            if command -v pygmentize &> /dev/null; then
-                command cat "$file" | pygmentize -l yaml
-            else
-                command cat "$file"
-            fi
-            ;;
-          toml)
-            if command -v pygmentize &> /dev/null; then
-                command cat "$file" | pygmentize -l toml
-            else
-                command cat "$file"
-            fi
-            ;;
-          md)
-            if command -v glow &> /dev/null; then
-                command glow "$file"
-            else
-                command cat "$file"
-            fi
-            ;;
-          *) command cat "$file";;
-      esac
-  done
+    for file in "$@"; do
+        ext="${file##*.}"
+        case "$ext" in
+            json)
+                if command -v python &> /dev/null && command -v pygmentize &> /dev/null; then
+                    command python -m json.tool "$file" | pygmentize -l json
+                else
+                    command cat "$file"
+                fi
+                ;;
+            yaml|yml)
+                if command -v pygmentize &> /dev/null; then
+                    command cat "$file" | pygmentize -l yaml
+                else
+                    command cat "$file"
+                fi
+                ;;
+            toml)
+                if command -v pygmentize &> /dev/null; then
+                    command cat "$file" | pygmentize -l toml
+                else
+                    command cat "$file"
+                fi
+                ;;
+            md)
+                if command -v glow &> /dev/null; then
+                    command glow "$file"
+                else
+                    command cat "$file"
+                fi
+                ;;
+            *) command cat "$file";;
+        esac
+    done
 }
 
 alias 'kore_nani?'='if [[ $((KORE_NANI_COUNT+=1)) -ge 6 ]]; then nyancat; KORE_NANI_COUNT=0; fi;'
@@ -111,19 +112,22 @@ gac() {
 
     # Fetch Details
     # ----------------
+    local current_branch
+    local issue_type
+    local issue_no
+    local issue_desc
 
     ## `feature/jira-123-this-is-issue-desc`, all in lower case
-    local current_branch=$(git rev-parse --abbrev-ref HEAD | tr '[:upper:]' '[:lower:]')
+    current_branch=$(git rev-parse --abbrev-ref HEAD | tr '[:upper:]' '[:lower:]')
 
     ## `feature`
-    local issue_type=$(echo $current_branch | cut -d '/' -f 1)
+    issue_type=$(echo "$current_branch" | cut -d '/' -f 1)
 
     ## `jira-123`
-    local issue_no=$(echo $current_branch | cut -d '/' -f 2- | cut -d '-' -f -2)
+    issue_no=$(echo "$current_branch" | cut -d '/' -f 2- | cut -d '-' -f -2)
 
     ## `this-is-issue-desc`
-    local issue_desc=$(echo $current_branch | cut -d '/' -f 2- | cut -d '-' -f 3- )
-
+    issue_desc=$(echo "$current_branch" | cut -d '/' -f 2- | cut -d '-' -f 3- )
 
     # Format Details
     # ----------------
@@ -136,10 +140,10 @@ gac() {
     issue_type=${branch_map[$issue_type]-${issue_type^}}
 
     ## `jira-123` -> `JIRA-123`
-    issue_no=$(echo $issue_no | tr '[:lower:]' '[:upper:]')
+    issue_no=$(echo "$issue_no" | tr '[:lower:]' '[:upper:]')
 
     ## `this-is-issue-desc` -> `This Is Issue Desc`
-    issue_desc=$(echo $issue_desc | sed 's/-/ /g' | awk '{for (i=1; i<=NF; i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1')
+    issue_desc=$(echo "$issue_desc" | sed 's/-/ /g' | awk '{for (i=1; i<=NF; i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1')
 
     ## `[Enhancement JIRA-123] This Is Issue Desc`
     local commit_msg="[$issue_type $issue_no] $issue_desc"
@@ -149,5 +153,5 @@ gac() {
 
     ## Along with this message, I have added $@, So that all the
     ## flags and arguments of `git commit` can be passed in this command.
-    git commit -m "$commit_msg" $@
+    git commit -m \""$commit_msg"\" "$@"
 }
