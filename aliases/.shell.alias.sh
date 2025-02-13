@@ -1,6 +1,6 @@
 # Shell Aliases
 
-alias '$'=''
+alias '$ '=''
 alias sudo='sudo '
 alias 'cd..'='cd ..'
 alias ls='ls -CFG'
@@ -28,7 +28,7 @@ alias sar='sudo apt autoremove'
 function long_clear() {
     len=$1
     len=${len:-10}
-    python -c "print('\n' * ${len})"
+    printf '\n%.0s' {1..${len}}
 }
 
 alias lcls='long_clear'
