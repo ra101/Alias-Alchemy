@@ -294,6 +294,14 @@ alias pui='pip uninstall'
 alias pf='pip freeze | sort'
 alias pfr='pip freeze | sort > requirements.txt'
 
+alias pyserve="python3 -m http.server"
+
+pyclean () {
+    find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
+}
+
+
+## uv Aliases: overwrite venv and pip aliases, if uv is installed.
 if command -v uv &> /dev/null; then
   alias upy='uv python'
   alias crtenv='uv python venv $DEFAULT_VENV_DIR'
@@ -306,11 +314,6 @@ if command -v uv &> /dev/null; then
   alias pfr='uv pip freeze | sort > requirements.txt'
 fi
 
-alias pyserve="python3 -m http.server"
-
-pyclean () {
-    find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
-}
 
 ## Alembic Aliases
 alias alex='alembic'
@@ -320,9 +323,9 @@ alias aldn='alembic downgrade'
 
 
 ## Django Aliases
-# ${PWD##*/} returns current directory
-alias wsgi='gunicorn ${PWD##*/}.wsgi:application'
-alias asgi='daphne ${PWD##*/}.asgi:application'
+# ${PWD##*/} returns current working directory.
+alias wsgi='gunicorn ${PYPROJ:-${PWD##*/}}.wsgi:application'
+alias asgi='daphne ${PYPROJ:-${PWD##*/}}.asgi:application'
 
 alias dj='python manage.py'
 alias djr='python manage.py runserver'
@@ -339,10 +342,11 @@ alias djt='python manage.py test'
 alias djdd="python manage.py dumpdata"
 alias djld="python manage.py loaddata"
 
-### Celery Aliases
-alias clb='celery -A ${PWD##*/} beat -l info'
-alias clw='celery -A ${PWD##*/} worker -l info'
-alias clf='celery -A ${PWD##*/} flower'
+
+## Celery Aliases
+alias clb='celery -A ${PYPROJ:-${PWD##*/}} beat -l info'
+alias clw='celery -A ${PYPROJ:-${PWD##*/}} worker -l info'
+alias clf='celery -A ${PYPROJ:-${PWD##*/}} flower'
 </code></pre>
 
 </details>
