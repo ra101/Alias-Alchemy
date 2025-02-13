@@ -82,7 +82,8 @@ alias gpl='git pull'
 alias gch='git checkout'
 alias gco='git commit -m'
 alias gca='git commit --amend --no-edit'
-alias gst='git status'
+alias gs='git status'
+alias gsb='git status -sb'
 alias ga='git add'
 alias gus='git restore --staged'
 alias gr='git reset'
@@ -93,6 +94,8 @@ alias grbm='git rebase $(git symbolic-ref refs/remotes/origin/HEAD | sed "s@^ref
 alias gf='git fetch'
 alias gd='git diff'
 alias gup="git push --set-upstream origin \$(parse_git_branch2)"
+alias gw='git whatchanged'
+alias glg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 gac() {
     ## The Idea is to create a commit message from the branch name
