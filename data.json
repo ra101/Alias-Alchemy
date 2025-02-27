@@ -44,7 +44,7 @@
 		},
 		"docker": {
 			"display": "Docker",
-			"shorthand": "dc",
+			"shorthand": "dk",
 			"link": "https://www.docker.com/"
 		},
 		"kubernetes": {

@@ -1,4 +1,4 @@
-# Shell Aliases
+# Shell Aliases (debian, git)
 
 alias '$ '=''
 alias sudo='sudo '

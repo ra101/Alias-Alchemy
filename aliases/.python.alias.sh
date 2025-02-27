@@ -1,4 +1,4 @@
-# Python Aliases
+# Python Aliases (py, py(uv), alembic, django, celery)
 
 DEFAULT_VENV_DIR='./venv'
 alias actenv='source $DEFAULT_VENV_DIR/bin/activate'
