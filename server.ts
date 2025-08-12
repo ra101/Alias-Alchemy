@@ -4,7 +4,8 @@ import aliasData from './data.json' with { type: 'json' };
 
 // Deno Can't deploy text file type yet.
 const helpText = await Deno.readTextFile(
-	new URL('./help.txt', import.meta.url));
+	new URL('./help/index.html', import.meta.url),
+);
 
 // These represent the file name for aliases
 const aliasCategories = Object.keys(aliasData.aliasDetails);
