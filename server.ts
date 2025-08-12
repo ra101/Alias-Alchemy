@@ -1,7 +1,10 @@
 import { join as joinPath } from '@std/path';
 
 import aliasData from './data.json' with { type: 'json' };
-import helpText from './help.txt' with { type: 'text' };
+
+// Deno Can't deploy text file type yet.
+const helpText = await Deno.readTextFile(
+	new URL('./help.txt', import.meta.url));
 
 // These represent the file name for aliases
 const aliasCategories = Object.keys(aliasData.aliasDetails);
