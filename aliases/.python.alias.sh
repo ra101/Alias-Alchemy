@@ -1,6 +1,9 @@
+#!/bin/bash
+
 # Python Aliases (py, py(uv), alembic, django, celery)
 
 actenv() {
+  # shellcheck source=/dev/null
   source "${1:-venv}/bin/activate"
 }
 
@@ -11,7 +14,7 @@ alias ptpy='ptpython'
 alias ipy='ipython'
 
 alias jn='jupyter notebook'
-alias crtenv='python -m venv $DEFAULT_VENV_DIR'
+alias crtenv='python -m venv ${DEFAULT_VENV_DIR:-venv}'
 
 alias pi='pip install'
 alias pir='pip install -r requirements.txt'
@@ -30,7 +33,7 @@ pyclean () {
 ## uv Aliases: overwrite venv and pip aliases, if uv is installed.
 if command -v uv &> /dev/null; then
   alias upy='uv python'
-  alias crtenv='uv python venv $DEFAULT_VENV_DIR'
+  alias crtenv='uv python venv ${DEFAULT_VENV_DIR:-venv}'
 
   alias pi='uv pip install'
   alias pir='uv pip install -r requirements.txt'

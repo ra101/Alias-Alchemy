@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Shell Aliases (debian, git)
 
 alias '$ '=''
@@ -81,6 +83,7 @@ alias gbr='git branch'
 alias gps='git push'
 alias gpl='git pull'
 alias gch='git checkout'
+alias gchb='git checkout -B'
 alias gco='git commit -m'
 alias gca='git commit --amend --no-edit'
 alias gs='git status'

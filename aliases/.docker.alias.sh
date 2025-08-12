@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Docker Aliases (docker, compose, swarm)
 
 alias dk='docker'
@@ -13,11 +15,10 @@ alias dkv='docker volume'
 alias dkvls='docker volume ls'
 
 function dkls(){
-    printf 'Containers:\n\n' && docker ps
-    printf '\n\nImages:\n\n' && docker images
-    printf '\n\nVolumes:\n\n' && docker volume ps
+    printf 'Containers:\n\n' && docker ps -a
+    printf '\n\nImages:\n\n' && docker images -a
+    printf '\n\nVolumes:\n\n' && docker volume ps -a
 }
-
 
 alias dkr='docker run'
 function dkrt(){

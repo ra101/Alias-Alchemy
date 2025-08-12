@@ -40,12 +40,17 @@
 		"python": {
 			"display": "Python",
 			"shorthand": "py",
-			"link": "https://www.python.org/"
+			"link": "https://python.org/"
 		},
 		"docker": {
 			"display": "Docker",
 			"shorthand": "dk",
-			"link": "https://www.docker.com/"
+			"link": "https://docker.com/"
+		},
+		"podman": {
+			"display": "Podman",
+			"shorthand": "pd",
+			"link": "https://podman.io/"
 		},
 		"kubernetes": {
 			"display": "Kubernetes",
