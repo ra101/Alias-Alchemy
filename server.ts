@@ -1,6 +1,7 @@
 import { join as joinPath } from '@std/path';
 
 import aliasData from './data.json' with { type: 'json' };
+import helpText from './help.txt' with { type: 'text' };
 
 // These represent the file name for aliases
 const aliasCategories = Object.keys(aliasData.aliasDetails);
@@ -22,14 +23,6 @@ for await (const cat of aliasCategories) {
 	shortMap[aliasData.aliasDetails[cat]['shorthand']] = cat;
 }
 
-// Bad Request String for category (lang) related errors
-let q400Str = `Valid Options are [  (null)`;
-for (const shorthand in shortMap) {
-	const cat = shortMap[shorthand];
-	q400Str += `, ${cat} (${shorthand})`;
-}
-q400Str += ']';
-
 // newline for composite file
 const newline = new TextEncoder().encode('\n');
 
@@ -42,11 +35,14 @@ async function requestHandler(request: Request): Response {
 
 	// Return "Hello World" for pinger; https://github.com/ra101/pinger
 	if (pathName == '/home.html') {
-		return new Response('Hello World\n', {});
+		return new Response('Hello World\n');
 	} else if (pathName == '/help') {
-		return new Response('Hello World\n', {});
+		return new Response(helpText);
 	} else if (pathName) {
-		return new Response(`Invalid ${url.pathname} path.\n`, { status: 400 });
+		return new Response(
+			`Invalid ${url.pathname} path.\n\n${helpText}`,
+			{ status: 400 },
+		);
 	}
 
 	// Return composite Alias file for cURL and other tools
@@ -59,7 +55,7 @@ async function requestHandler(request: Request): Response {
 	return indexPageResponse();
 }
 
-async function indexPageResponse(): Response {
+async function indexPageResponse(): Promise<Response> {
 	// We fetch webpage on the fly, so that Deploy
 	// minutes are not wasted on README changes
 	const webpage = await fetch('https://ra101.dev/Alias-Alchemy');
@@ -105,9 +101,10 @@ function aliasFileResponse(searchParams: URLSearchParams) {
 
 			// Validate each `q`
 			if (!aliasCategories.includes(tmpCat)) {
-				return new Response(`Invalid Alias Category '${cat}'! ${q400Str}`, {
-					status: 400,
-				});
+				return new Response(
+					`Invalid Alias Category '${cat}'!\n\n${helpText}`,
+					{ status: 400 },
+				);
 			}
 			qAliasCat.push(tmpCat);
 		}

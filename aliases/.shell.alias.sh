@@ -27,6 +27,12 @@ alias sauu='sudo apt upgrade'
 alias sadu='sudo apt dist-upgrade'
 alias sar='sudo apt autoremove'
 
+if echo "$SHELL" | grep -q "bash"; then
+    alias rerc='source ~/.bashrc'
+elif echo "$SHELL" | grep -q "zsh"; then
+    alias rerc='source ~/.zshrc'
+fi
+
 function long_clear() {
     len=${1:-10}
     for ((i=1; i <= len; i++)) do

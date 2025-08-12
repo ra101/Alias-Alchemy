@@ -1,0 +1,22 @@
+Alias Alchemy - The best way to download aliases for fast setup.
+
+USAGE:
+    curl -L "alias-alchemy.ra101.dev/?q=<category-1>,<category-2>,..."
+
+AVAILABLE CATEGORIES:
+    , (null)                   All aliases
+    shell, sh                  Shell aliases (Debian, Git, utilities)
+    python, py                 Python aliases (py, py(uv), alembic, django, celery)
+    docker, dk                 Docker aliases (docker, compose, swarm)
+    podman, pd                 Podman aliases (podman, compose)
+    kubernetes, k              Kubernetes aliases (kubectl, kubecolor, kustomize)
+
+SHORT DOMAIN:
+    alal.deno.dev
+
+SUPPORTED TOOLS:
+    curl, wget, httpie, aria2, postman, or any tool with User-Agent: 'alal'
+
+To get this short usage guild, Run: `curl -L alal.deno.dev/help`
+
+For more information, visit: https://alias-alchemy.ra101.dev
