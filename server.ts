@@ -62,10 +62,12 @@ async function requestHandler(request: Request): Response {
 async function indexPageResponse(): Promise<Response> {
 	// We fetch webpage on the fly, so that Deploy
 	// minutes are not wasted on README changes
-	const webpage = await fetch('https://ra101.dev/Alias-Alchemy');
+	const webpage = await fetch('https://alias-alchemy-web.ra101.dev');
 
 	let webpageHTML = await webpage.text();
-	webpageHTML = webpageHTML.replaceAll('"/', '"https://ra101.dev/');
+	webpageHTML = webpageHTML.replaceAll('alias-alchemy-web', 'alias-alchemy');
+	webpageHTML = webpageHTML.replaceAll('deno.dev', 'ra101.dev');
+	webpageHTML = webpageHTML.replaceAll('/assets/', 'https://alias-alchemy-web.ra101.dev/assets/');
 
 	const headers = new Headers(webpage.headers);
 	const init: ResponseInit = { headers };
