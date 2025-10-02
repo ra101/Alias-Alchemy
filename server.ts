@@ -67,7 +67,10 @@ async function indexPageResponse(): Promise<Response> {
 	let webpageHTML = await webpage.text();
 	webpageHTML = webpageHTML.replaceAll('alias-alchemy-web', 'alias-alchemy');
 	webpageHTML = webpageHTML.replaceAll('deno.dev', 'ra101.dev');
-	webpageHTML = webpageHTML.replaceAll('/assets/', 'https://alias-alchemy-web.ra101.dev/assets/');
+	webpageHTML = webpageHTML.replaceAll(
+		'/assets/',
+		'https://alias-alchemy-web.ra101.dev/assets/',
+	);
 
 	const headers = new Headers(webpage.headers);
 	const init: ResponseInit = { headers };
