@@ -1,8 +1,20 @@
 #!/bin/bash
 
 # Shell Aliases (debian, git)
+if echo "$SHELL" | grep -q "bash"; then
+    SHELL_RC="$(realpath "$HOME/.bashrc")"
+elif echo "$SHELL" | grep -q "zsh"; then
+    SHELL_RC="$(realpath "$HOME/.zshrc")"
+fi
 
-alias '$ '=''
+alias rerc='source ${SHELL_RC}'
+
+if command -v code &> /dev/null; then
+    alias editrc='code ${SHELL_RC}'
+else
+    alias editrc='vi ${SHELL_RC}'
+fi
+
 alias sudo='sudo '
 alias 'cd..'='cd ..'
 alias ls='ls -CFG'
@@ -27,10 +39,21 @@ alias sauu='sudo apt upgrade'
 alias sadu='sudo apt dist-upgrade'
 alias sar='sudo apt autoremove'
 
-if echo "$SHELL" | grep -q "bash"; then
-    alias rerc='source ~/.bashrc'
-elif echo "$SHELL" | grep -q "zsh"; then
-    alias rerc='source ~/.zshrc'
+if command -v nvim &> /dev/null; then
+    alias vi='nvim'
+    alias vim='nvim'
+fi
+
+if command -v htop &> /dev/null; then
+    alias top='htop'
+fi
+
+if command -v mycli &> /dev/null; then
+    alias mysql='mycli'
+fi
+
+if command mongosh &> /dev/null; then
+    alias mongo='mongosh'
 fi
 
 function long_clear() {
@@ -47,22 +70,15 @@ cat() {
         ext="${file##*.}"
         case "$ext" in
             json)
-                if command -v python &> /dev/null && command -v pygmentize &> /dev/null; then
-                    command python -m json.tool "$file" | pygmentize -l json
+                if command -v jq &> /dev/null; then
+                    command cat "$file" | jq
                 else
                     command cat "$file"
                 fi
                 ;;
-            yaml|yml)
-                if command -v pygmentize &> /dev/null; then
-                    command cat "$file" | pygmentize -l yaml
-                else
-                    command cat "$file"
-                fi
-                ;;
-            toml)
-                if command -v pygmentize &> /dev/null; then
-                    command cat "$file" | pygmentize -l toml
+            yaml|yml|toml|ini|kyaml)
+                if command -v yq &> /dev/null; then
+                    command cat "$file" | yq
                 else
                     command cat "$file"
                 fi
@@ -86,10 +102,11 @@ parse_git_branch2() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \1/'
 }
 alias gbr='git branch'
+alias gbrd='git branch -D'
 alias gps='git push'
 alias gpl='git pull'
 alias gch='git checkout'
-alias gchb='git checkout -B'
+alias gchb='git checkout -b'
 alias gco='git commit -m'
 alias gca='git commit --amend --no-edit'
 alias gs='git status'
