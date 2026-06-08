@@ -2,46 +2,57 @@ import { join as joinPath } from '@std/path';
 
 import aliasData from './data.json' with { type: 'json' };
 
-async function createAliasText(aliasCategories) {
+type AliasDetails = typeof aliasData.aliasDetails;
+type NetworkTools = typeof aliasData.tools;
+
+type AliasCategory = keyof AliasDetails;
+type NetworkTool = keyof NetworkTools;
+
+const aliasCategories: AliasDetails = aliasData.aliasDetails;
+const networkTools: NetworkTools = aliasData.tools;
+const aliasCategoryKeys = Object.keys(aliasCategories) as AliasCategory[];
+const networkToolKeys = Object.keys(networkTools) as NetworkTool[];
+
+async function createAliasText(): Promise<string> {
 	let aliasText = '';
 
-	for await (const cat of Object.keys(aliasCategories)) {
+	for (const cat of aliasCategoryKeys) {
 		const linuxAliases = new TextDecoder().decode(
 			await Deno.readFile(joinPath('aliases', `.${cat}.alias.sh`)),
 		);
 
-		const link = aliasCategories[cat]['link'];
+		const { link, display, shorthand } = aliasCategories[cat];
+
 		aliasText += `<details>\n\t<summary> `;
-		aliasText += `<h4 style="display:inline-block;">〉<a href="${link}"> ${
-			aliasCategories[cat]['display']
-		} </a>`;
-		aliasText += ` (${aliasCategories[cat]['shorthand']})`;
+		aliasText +=
+			`<h4 style="display:inline-block;">〉<a href="${link}"> ${display} </a>`;
+		aliasText += ` (${shorthand})`;
 		aliasText += ' Aliases </h4> </summary>';
 		aliasText += `\n\n\`\`\`bash\n${linuxAliases}\n\`\`\`\n\n</details>\n\n`;
 	}
+
 	return aliasText;
 }
 
-async function createToolTable(networkTools) {
+function createToolTable(): string {
 	let toolTable = '\n<table><tbody>\n';
 
-	for await (const tool of Object.keys(networkTools)) {
-		if (['curl', 'wget'].includes(tool)) {
+	for (const tool of networkToolKeys) {
+		if (tool === 'curl' || tool === 'wget') {
 			continue;
 		}
+
+		const { link, display, command } = networkTools[tool];
+
 		let toolRow = '<tr><td> ';
 
-		if (networkTools[tool]['link']) {
-			toolRow += `<a href="${networkTools[tool]['link']}"> ${
-				networkTools[tool]['display']
-			} </a>`;
+		if (link) {
+			toolRow += `<a href="${link}"> ${display} </a>`;
 		} else {
-			toolRow += `${networkTools[tool]['display']}`;
+			toolRow += display;
 		}
 
-		toolRow += ` </td> <td> <code> ${
-			networkTools[tool]['command']
-		} </code> </td>`;
+		toolRow += ` </td> <td> <code> ${command} </code> </td>`;
 		toolRow += '</tr>\n';
 		toolTable += toolRow;
 	}
@@ -50,7 +61,7 @@ async function createToolTable(networkTools) {
 }
 
 // Replace old data in `tag` with new `data` in `text` file-data
-function populateTag(tag: string, data: string, text: string) {
+function populateTag(tag: string, data: string, text: string): string {
 	const openTag = `<${tag}>`;
 	const closeTag = `</${tag}>`;
 	const tagStart = text.substring(0, text.indexOf(openTag) + openTag.length);
@@ -58,7 +69,7 @@ function populateTag(tag: string, data: string, text: string) {
 	return `${tagStart}\n${data}\n${tagEnd}`;
 }
 
-async function updateReadme() {
+async function updateReadme(): Promise<void> {
 	// read readme file
 	const fileName = 'README.md';
 	const readmeFile = await Deno.readFile(fileName);
@@ -66,18 +77,18 @@ async function updateReadme() {
 	readmeText = readmeText.replaceAll('\r', ''); // remove `\r` (enter) char
 
 	// populate alias details
-	const aliasText = await createAliasText(aliasCategories);
+	const aliasText = await createAliasText();
 	readmeText = populateTag('aliasText', aliasText, readmeText);
 
 	// populate network tools
-	const toolTable = await createToolTable(networkTools);
+	const toolTable = createToolTable();
 	readmeText = populateTag('tools', toolTable, readmeText);
 
 	// write readme file
 	await Deno.writeTextFile(fileName, readmeText);
 }
 
-async function updateIndex() {
+async function updateIndex(): Promise<void> {
 	// read readme file
 	let readmeText = new TextDecoder().decode(await Deno.readFile('README.md'));
 	readmeText = readmeText.replaceAll('\r', ''); // remove `\r` (enter) char
@@ -108,7 +119,7 @@ async function updateIndex() {
 	await Deno.writeTextFile('index.md', indexText);
 }
 
-async function updateVersion() {
+async function updateVersion(): Promise<void> {
 	// read version file
 	const fileName = '.version';
 
@@ -116,6 +127,7 @@ async function updateVersion() {
 	const match = new TextDecoder()
 		.decode(await Deno.readFile(fileName))
 		.replaceAll('\r', '')
+		.replaceAll('\n', '')
 		.match(/^v?(\d+)\.(\d+)\.(\d+)$/);
 
 	if (!match) {
@@ -140,13 +152,11 @@ async function updateVersion() {
 	}
 
 	const newVersion =
-		`v${oldVersion.major}.${oldVersion.minor}.${oldVersion.patch}`;
+		`v${oldVersion.major}.${oldVersion.minor}.${oldVersion.patch}\n`;
 
 	await Deno.writeTextFile(fileName, newVersion);
 }
 
-const aliasCategories = aliasData.aliasDetails;
-const networkTools = aliasData.tools;
 await updateReadme();
 await updateIndex();
 await updateVersion();

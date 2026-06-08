@@ -2,19 +2,30 @@ import { join as joinPath } from '@std/path';
 
 import aliasData from './data.json' with { type: 'json' };
 
+type AliasCategory = keyof typeof aliasData.aliasDetails;
+
 // Deno Can't deploy text file type yet.
 const helpText = await Deno.readTextFile(
 	new URL('./help.txt', import.meta.url),
 );
 
+const projectVersion = await Deno.readTextFile(
+	new URL('./.version', import.meta.url),
+);
+
 // These represent the file name for aliases
-const aliasCategories = Object.keys(aliasData.aliasDetails);
+const aliasCategories = Object.keys(
+	aliasData.aliasDetails,
+) as AliasCategory[];
 
 // These represent the User-Agent String
 const networkTools = Object.keys(aliasData.tools);
 
 // Alias File Map {<language>: {<platform>: <file-data>}, ...}
-const aliasFiles = {};
+const aliasFiles: Record<string, Uint8Array> = {} as Record<
+	AliasCategory,
+	Uint8Array
+>;
 for await (const cat of aliasCategories) {
 	aliasFiles[cat] = await Deno.readFile(
 		joinPath('aliases', `.${cat}.alias.sh`),
@@ -22,7 +33,7 @@ for await (const cat of aliasCategories) {
 }
 
 // Short Hand Map {<language>: <short-hand>}
-const shortMap = {};
+const shortMap: Record<string, AliasCategory> = {};
 for await (const cat of aliasCategories) {
 	shortMap[aliasData.aliasDetails[cat]['shorthand']] = cat;
 }
@@ -31,7 +42,7 @@ for await (const cat of aliasCategories) {
 const newline = new TextEncoder().encode('\n');
 
 // Server!
-async function requestHandler(request: Request): Response {
+function requestHandler(request: Request): Response {
 	const url = new URL(request.url);
 
 	// Remove trailing '/'.
@@ -42,6 +53,8 @@ async function requestHandler(request: Request): Response {
 		return new Response('Hello World\n');
 	} else if (pathName == '/help') {
 		return new Response(helpText);
+	} else if (pathName == '/version') {
+		return new Response(projectVersion);
 	} else if (pathName) {
 		return new Response(
 			`Invalid ${url.pathname} path.\n\n${helpText}`,
@@ -52,7 +65,7 @@ async function requestHandler(request: Request): Response {
 	// Return composite Alias file for cURL and other tools
 	const userAgent = request.headers.get('user-agent');
 	if (userAgent && isCliRequest(userAgent)) {
-		return await aliasFileResponse(url.searchParams);
+		return aliasFileResponse(url.searchParams);
 	}
 
 	// Return fetched page from https://ra101.dev/Alias-Alchemy
@@ -88,7 +101,9 @@ function isCliRequest(userAgent: string): boolean {
 	return false;
 }
 
-function aliasFileResponse(searchParams: URLSearchParams) {
+function aliasFileResponse(
+	searchParams: URLSearchParams,
+): Response {
 	let query = searchParams.get('q') || '';
 	query = query
 		.toLowerCase()
@@ -106,7 +121,8 @@ function aliasFileResponse(searchParams: URLSearchParams) {
 		for (const cat of qList) {
 			// tmpCat is initialized with actual name,
 			// even if the shorthand is provided.
-			const tmpCat: string = shortMap[cat] || cat;
+			const tmpCat: AliasCategory | undefined = shortMap[cat] ??
+				(cat as AliasCategory);
 
 			// Validate each `q`
 			if (!aliasCategories.includes(tmpCat)) {
@@ -120,7 +136,7 @@ function aliasFileResponse(searchParams: URLSearchParams) {
 	}
 
 	// create composite alias file
-	const aliasFile = createAliasFile(qAliasCat);
+	const aliasFileBuffer = createAliasFileBuffer(qAliasCat);
 
 	// create headers for file response
 	const headers = new Headers();
@@ -128,11 +144,11 @@ function aliasFileResponse(searchParams: URLSearchParams) {
 	headers.set('Content-Disposition', `attachment; filename=".alias.sh"`);
 	const init: ResponseInit = { headers };
 
-	return new Response(aliasFile, init);
+	return new Response(aliasFileBuffer, init);
 }
 
 // Create Composite Alias File
-function createAliasFile(qAliasCat: Array<string>) {
+function createAliasFileBuffer(qAliasCat: Array<string>): ArrayBuffer {
 	// Calculate the total size of the composite alias file.
 	let aliasFileSize = 0;
 	for (const cat of qAliasCat) {
@@ -150,12 +166,7 @@ function createAliasFile(qAliasCat: Array<string>) {
 		sizeOffset += newline.length;
 	}
 
-	return aliasFile;
+	return aliasFile.buffer;
 }
 
-let port = 80;
-if (Deno.args.find((e) => e == '--debug')) {
-	port = 8080;
-}
-
-Deno.serve({ port: port }, requestHandler);
+Deno.serve(requestHandler);

@@ -9,14 +9,14 @@ AVAILABLE CATEGORIES:
     python, py                 Python aliases (py, py(uv), alembic, django, celery)
     docker, dk                 Docker aliases (docker, compose, swarm)
     podman, pd                 Podman aliases (podman, compose)
-    kubernetes, k              Kubernetes aliases (kubectl, kubecolor, kustomize)
+    kubernetes, k              Kubernetes aliases (kubectl, kubevirt, kubecolor, kustomize)
 
 SHORT DOMAIN:
-    alal.deno.dev
+    alias.ra101.dev
 
 SUPPORTED TOOLS:
-    curl, wget, httpie, aria2, postman, or any tool with User-Agent: 'alal'
+    curl, wget, httpie, aria2, postman, or any tool with User-Agent: 'alias'
 
-To get this short usage guild, Run: `curl -L alal.deno.dev/help`
+To get this short usage guild, Run: `curl -L alias.ra101.dev/help`
 
 For more information, visit: https://alias-alchemy.ra101.dev

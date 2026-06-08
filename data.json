@@ -25,9 +25,9 @@
 			"command": "GET [url] | Save to File",
 			"link": "https://www.postman.com/"
 		},
-		"alal": {
+		"alias": {
 			"display": "Any Tool",
-			"command": "[tool] [header: {'User-Agent': 'alal'}] [url] > [filepath]",
+			"command": "[tool] [header: {'User-Agent': 'alias'}] [url] > [filepath]",
 			"link": null
 		}
 	},
