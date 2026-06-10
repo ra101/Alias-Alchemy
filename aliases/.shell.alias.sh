@@ -1,19 +1,21 @@
 #!/bin/bash
 
 # Shell Aliases (debian, git)
+alias rerc='exec $SHELL -l'
+
 if echo "$SHELL" | grep -q "bash"; then
-    SHELL_RC="$(realpath "$HOME/.bashrc")"
+    SHELL_RC="$HOME/.bashrc"
 elif echo "$SHELL" | grep -q "zsh"; then
-    SHELL_RC="$(realpath "$HOME/.zshrc")"
+    SHELL_RC="$HOME/.zshrc"
 fi
 
-alias rerc='source ${SHELL_RC}'
-
-if command -v code &> /dev/null; then
-    alias editrc='code ${SHELL_RC}'
-else
-    alias editrc='vi ${SHELL_RC}'
-fi
+editrc() {
+    if command -v code >/dev/null 2>&1; then
+        code "$SHELL_RC"
+    else
+        vi "$SHELL_RC"
+    fi
+}
 
 alias sudo='sudo '
 alias 'cd..'='cd ..'
