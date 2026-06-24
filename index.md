@@ -169,7 +169,7 @@ if command -v mycli &> /dev/null; then
     alias mysql='mycli'
 fi
 
-if command mongosh &> /dev/null; then
+if command -v mongosh &> /dev/null; then
     alias mongo='mongosh'
 fi
 
