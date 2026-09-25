@@ -15,7 +15,7 @@ SHORT DOMAIN:
     alias.ra101.dev
 
 SUPPORTED TOOLS:
-    curl, wget, httpie, aria2, postman, or any tool with User-Agent: 'alias'
+    curl, wget, httpie, aria2, postman, or any tool with `User-Agent: alias` header.
 
 To get this short usage guild, Run: `curl -L alias.ra101.dev/help`
 
